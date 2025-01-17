@@ -1,27 +1,34 @@
 import React from "react";
 import Header from "../Reuse/Header";
+import { Link } from "react-router-dom";
 
 export default function HomeSection() {
+  const restaurants = [
+    { name: "The Italian Place" },
+    { name: "Sushi World" },
+    { name: "BBQ Heaven" },
+    { name: "Vegan Delights" },
+    { name: "Mexican Fiesta" },
+  ];
+  console.log(restaurants);
+
   return (
     <div>
       <Header content={"Home"} />
       <div>
-        <div>
-          <h3>captain cook</h3>
-          <p>no 18 arigbabola street ondo, ondo state</p>
-        </div>
-        <div>
-          <h3>mr biggs</h3>
-          <p>no 18 arigbabola street ondo, ondo state</p>
-        </div>
-        <div>
-          <h3>tantalizer</h3>
-          <p>no 18 arigbabola street ondo, ondo state</p>
-        </div>
-        <div>
-          <h3>chicken republic</h3>
-          <p>no 18 arigbabola street ondo, ondo state</p>
-        </div>
+        <h1>Restaurants</h1>
+        <ul>
+          {restaurants.map((restaurant, index) => (
+            <li key={index}>
+              <Link
+                to={`/restaurant/${encodeURIComponent(restaurant.name)}`}
+                className="restaurant-link"
+              >
+                {restaurant.name}
+              </Link>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );

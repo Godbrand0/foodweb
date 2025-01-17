@@ -1,9 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export default function NavIcons({ icon }) {
+export default function NavIcons({ icon, classname }) {
   return (
     <div>
-      <FontAwesomeIcon icon={icon} className="lg:hidden cursor-pointer" />
+      <FontAwesomeIcon icon={icon} className={classname} />
     </div>
   );
 }
