@@ -1,12 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
-import {
-  faMinus,
-  faPlus,
-  faCartShopping,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import NavIcons from "../Reuse/NavIcons";
-import CheckOut from "../components/CheckoutSection";
 
 const restaurantData = {
   "The Italian Place": [
@@ -45,11 +40,11 @@ const restaurantData = {
     { name: "Guacamole & Chips", price: 6.99 },
   ],
 };
-export default function ResturantDetails() {
+
+export default function ResturantDetails({ cart, setCart }) {
   const { name } = useParams();
   const decodedName = decodeURIComponent(name);
   const foods = restaurantData[decodedName] || [];
-  const [cart, setCart] = useState([]);
 
   const handleAddToCart = (index, foodName, price) => {
     setCart((prevCart) => {
@@ -82,27 +77,26 @@ export default function ResturantDetails() {
 
   return (
     <div className="restaurant-details">
-      <h1>{decodedName}</h1>
+      <h1 className="text-2xl font-bold mb-4">{decodedName}</h1>
       <ul>
         {foods.map((food, index) => (
-          <li key={index}>
-            {food.name} - ${food.price.toFixed(2)}
+          <li
+            key={index}
+            className="flex justify-between items-center mb-4 bg-gray-100 p-4 rounded-lg shadow"
+          >
             <span>
-              <div
-                className="bg-orange-500 py-3 px-14 rounded-xl text-center cursor-pointer hover:opacity-45 duration-150"
-                id="add-to-cart"
-                onClick={() => handleAddToCart(index, food.name, food.price)}
-              >
-                <i className="">
-                  <NavIcons icon={faCartShopping} />
-                </i>
-                <span class="font-bold px-3">Add to cart</span>
-              </div>
+              {food.name} - ${food.price.toFixed(2)}
             </span>
+            <button
+              className="bg-orange-500 py-2 px-4 rounded-xl text-white font-bold flex items-center hover:opacity-75 transition-opacity"
+              onClick={() => handleAddToCart(index, food.name, food.price)}
+            >
+              <NavIcons icon={faCartShopping} />
+              <span className="ml-2">Add to cart</span>
+            </button>
           </li>
         ))}
       </ul>
-      <CheckOut cart={cart} />
     </div>
   );
 }

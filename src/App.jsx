@@ -5,14 +5,11 @@ import CheckoutSection from "../src/components/CheckoutSection";
 import HomeSection from "../src/components/HomeSection";
 import ResturantDetails from "../src/components/ResturantDetails";
 import NavIcons from "../src/Reuse/NavIcons";
-import {
-  faUser,
-  faCartShopping,
-  faXmark,
-} from "@fortawesome/free-solid-svg-icons";
+import { faUser, faCartShopping } from "@fortawesome/free-solid-svg-icons";
 
 function App() {
   const [activeMobileSection, setActiveMobileSection] = useState(null);
+  const [cart, setCart] = useState([]); // Manage cart state globally
 
   const closeSection = () => setActiveMobileSection(null);
 
@@ -31,7 +28,10 @@ function App() {
       <div className="col-span-1 md:col-span-2 bg-white p-4">
         <Routes>
           <Route path="/" element={<HomeSection />} />
-          <Route path="/restaurant/:name" element={<ResturantDetails />} />
+          <Route
+            path="/restaurant/:name"
+            element={<ResturantDetails cart={cart} setCart={setCart} />}
+          />
         </Routes>
       </div>
 
@@ -41,7 +41,7 @@ function App() {
           activeMobileSection === "checkout" ? "block" : "hidden"
         } md:block col-span-1 bg-gray-100 p-4`}
       >
-        <CheckoutSection closeSection={closeSection} />
+        <CheckoutSection closeSection={closeSection} cart={cart} />
       </div>
 
       {/* Mobile Navigation */}

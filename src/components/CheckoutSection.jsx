@@ -16,7 +16,7 @@ export default function CheckoutSection({ closeSection, cart = [] }) {
         </button>
       </div>
 
-      <div className="lg:block hidden">
+      <div className="lg:block">
         <h2>Checkout Section</h2>
         <div className="col-span-1 bg-gray-100 p-4 rounded-lg shadow">
           <h2 className="text-xl font-bold mb-4">Checkout</h2>
@@ -43,10 +43,6 @@ export default function CheckoutSection({ closeSection, cart = [] }) {
             </div>
           )}
         </div>
-      </div>
-
-      <div>
-        <p>Your cart items will appear here.</p>
       </div>
     </div>
   );
