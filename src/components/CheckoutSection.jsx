@@ -1,12 +1,11 @@
 import React from "react";
-import Header from "../Reuse/Header";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import { useSelector } from "react-redux";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import useSidebar from "../Hooks/useSidebar";
+
 import NavIcons from "../Reuse/NavIcons";
 
-export default function CheckoutSection({ closeSection, cart = [] }) {
+export default function CheckoutSection({ closeSection }) {
+  const cart = useSelector((state) => state.cart.cart);
   return (
     <div>
       {/* Mobile Close Button */}

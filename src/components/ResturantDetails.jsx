@@ -2,6 +2,8 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import NavIcons from "../Reuse/NavIcons";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../redux/cartSlice";
 
 const restaurantData = {
   "The Italian Place": [
@@ -41,38 +43,45 @@ const restaurantData = {
   ],
 };
 
-export default function ResturantDetails({ cart, setCart }) {
+export default function ResturantDetails() {
   const { name } = useParams();
   const decodedName = decodeURIComponent(name);
   const foods = restaurantData[decodedName] || [];
 
-  const handleAddToCart = (index, foodName, price) => {
-    setCart((prevCart) => {
-      const existingItem = prevCart.find((item) => item.index === index);
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart.cart);
 
-      if (existingItem) {
-        return prevCart.map((item) =>
-          item.index === index
-            ? {
-                ...item,
-                quantity: item.quantity + 1,
-                totalPrice: item.totalPrice + price,
-              }
-            : item
-        );
-      } else {
-        return [
-          ...prevCart,
-          {
-            index,
-            name: foodName,
-            price,
-            quantity: 1,
-            totalPrice: price,
-          },
-        ];
-      }
-    });
+  const handleAddToCart = (index, foodName, price) => {
+    dispatch(
+      addToCart({ id: `${decodedName}-${index}`, name: foodName, price })
+    );
+
+    // setCart((prevCart) => {
+    //   const existingItem = prevCart.find((item) => item.index === index);
+
+    //   if (existingItem) {
+    //     return prevCart.map((item) =>
+    //       item.index === index
+    //         ? {
+    //             ...item,
+    //             quantity: item.quantity + 1,
+    //             totalPrice: item.totalPrice + price,
+    //           }
+    //         : item
+    //     );
+    //   } else {
+    //     return [
+    //       ...prevCart,
+    //       {
+    //         index,
+    //         name: foodName,
+    //         price,
+    //         quantity: 1,
+    //         totalPrice: price,
+    //       },
+    //     ];
+    //   }
+    // });
   };
 
   return (
