@@ -1,15 +1,14 @@
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import ProfileSection from "../src/components/ProfileSection";
-import CheckoutSection from "../src/components/CheckoutSection";
-import HomeSection from "../src/components/HomeSection";
-import ResturantDetails from "../src/components/ResturantDetails";
-import NavIcons from "../src/Reuse/NavIcons";
-import { faUser, faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import ProfileSection from "./components/ProfileSection";
+import CheckoutSection from "./components/CheckoutSection";
+import MobileNavigation from "./components/MobileNavigation";
+import routes from "../src/routes";
 
 function App() {
   const [activeMobileSection, setActiveMobileSection] = useState(null);
-  const [cart, setCart] = useState([]); // Manage cart state globally
+  const [cart, setCart] = useState([]);
+  const [userLoggedIn, setUserLoggedIn] = useState(false); // Authentication state
 
   const closeSection = () => setActiveMobileSection(null);
 
@@ -24,14 +23,12 @@ function App() {
         <ProfileSection closeSection={closeSection} />
       </div>
 
-      {/* Middle Section (Home or Restaurant Details) */}
+      {/* Middle Section (Dynamic Routes) */}
       <div className="col-span-1 md:col-span-2 bg-white p-4">
         <Routes>
-          <Route path="/" element={<HomeSection />} />
-          <Route
-            path="/restaurant/:name"
-            element={<ResturantDetails cart={cart} setCart={setCart} />}
-          />
+          {routes(userLoggedIn, cart, setCart).map((route, index) => (
+            <Route key={index} path={route.path} element={route.element} />
+          ))}
         </Routes>
       </div>
 
@@ -45,15 +42,9 @@ function App() {
       </div>
 
       {/* Mobile Navigation */}
-      <div className="fixed bottom-0 left-0 w-full flex justify-around bg-gray-800 text-white p-2 md:hidden">
-        <button onClick={() => setActiveMobileSection("profile")}>
-          <NavIcons icon={faUser} />
-        </button>
-        <button onClick={() => setActiveMobileSection("home")}>Home</button>
-        <button onClick={() => setActiveMobileSection("checkout")}>
-          <NavIcons icon={faCartShopping} />
-        </button>
-      </div>
+      {userLoggedIn && (
+        <MobileNavigation setActiveSection={setActiveMobileSection} />
+      )}
     </div>
   );
 }

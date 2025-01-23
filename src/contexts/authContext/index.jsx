@@ -14,10 +14,14 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, initializeUser);
+    // Set up Firebase Authentication listener
+    const unsubscribe = onAuthStateChanged(auth, handleAuthStateChange);
+
+    // Clean up the listener on unmount
     return unsubscribe;
   }, []);
-  async function initializeUser(user) {
+
+  function handleAuthStateChange(user) {
     if (user) {
       setUser({ ...user });
       setUserLoggedIn(true);
@@ -27,14 +31,18 @@ export function AuthProvider({ children }) {
     }
     setLoading(false);
   }
+
   const value = {
-    currentUser,
+    currentUser: user, // Corrected reference
     userLoggedIn,
     loading,
   };
+
   return (
     <AuthContext.Provider value={value}>
       {!loading && children}
     </AuthContext.Provider>
   );
 }
+
+export default AuthContext;
