@@ -4,16 +4,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import NavIcons from "../Reuse/NavIcons";
 import { faUser, faXmark } from "@fortawesome/free-solid-svg-icons";
 import useSidebar from "../Hooks/useSidebar";
+import Logout from "./Logout";
 
 export default function ProfileSection({ closeSection }) {
   // Simulating the user data
-  const [userInfo] = useState({
-    username: "thomspn",
-    phone: "07064836051",
-    address: "phase 3 avenue 1 harmony estate",
-    name: "eregha thompson",
-  });
-  console.log(userInfo);
+  // const { currentUser } = useAuth();
+  // const [userData, setUserData] = useState(currentUser);
 
   return (
     <div>
@@ -31,21 +27,23 @@ export default function ProfileSection({ closeSection }) {
       <ul>
         <li>
           <span>Username:</span>
-          <p>{userInfo.username}</p>
+          <p>{}</p>
         </li>
         <li>
           <span>Phone:</span>
-          <p>{userInfo.phone}</p>
+          <p>{}</p>
         </li>
         <li>
           <span>Address:</span>
-          <p>{userInfo.address}</p>
+          <p>{}</p>
         </li>
         <li>
           <span>Name:</span>
-          <p>{userInfo.name}</p>
+          <p>{}</p>
         </li>
       </ul>
+
+      <Logout />
     </div>
   );
 }

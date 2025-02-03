@@ -24,10 +24,10 @@ export function AuthProvider({ children }) {
   function handleAuthStateChange(user) {
     if (user) {
       setUser({ ...user });
-      setUserLoggedIn(true);
+      if (!userLoggedIn) setUserLoggedIn(true); // Only update if it hasn't already
     } else {
+      if (userLoggedIn) setUserLoggedIn(false); // Avoid redundant updates
       setUser(null);
-      setUserLoggedIn(false);
     }
     setLoading(false);
   }

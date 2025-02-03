@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/authContext";
 import {
   doSignInWithEmailAndPassword,
   doSignInWithGoogle,
 } from "../firebase/Auth";
+import Inputs from "../Reuse/Inputs";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -15,10 +16,17 @@ export default function Login() {
 
   const { userLoggedIn } = useAuth();
 
+  useEffect(() => {
+    if (userLoggedIn) {
+      navigate("/home", { replace: true });
+    }
+  }, [userLoggedIn, navigate]); // Added `navigate` to dependencies for consistency
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     setIsSigningIn(true);
+    setErrorMessage(""); // Clear previous errors
+
     try {
       await doSignInWithEmailAndPassword(email, password);
       navigate("/home");
@@ -31,6 +39,8 @@ export default function Login() {
 
   const handleGoogleSignIn = async () => {
     setIsSigningIn(true);
+    setErrorMessage(""); // Clear previous errors
+
     try {
       await doSignInWithGoogle();
       navigate("/home");
@@ -41,30 +51,22 @@ export default function Login() {
     }
   };
 
-  if (userLoggedIn) {
-    return <navigate to="/home" replace={true} />;
-  }
-
   return (
     <div className="flex justify-center items-center min-h-screen">
       <div className="w-96 p-6 shadow-xl border rounded-lg">
         <h3 className="text-xl font-semibold text-center mb-4">Log In</h3>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <input
+          <Inputs
             type="email"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            required
-            className="w-full px-4 py-2 border rounded-lg"
           />
-          <input
+          <Inputs
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
-            className="w-full px-4 py-2 border rounded-lg"
           />
           {errorMessage && (
             <p className="text-red-500 text-sm font-bold">{errorMessage}</p>
@@ -73,7 +75,9 @@ export default function Login() {
             type="submit"
             disabled={isSigningIn}
             className={`w-full py-2 text-white rounded-lg ${
-              isSigningIn ? "bg-gray-400" : "bg-blue-500 hover:bg-blue-600"
+              isSigningIn
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-blue-500 hover:bg-blue-600"
             }`}
           >
             {isSigningIn ? "Signing in..." : "Log In"}
@@ -82,9 +86,7 @@ export default function Login() {
         <button
           onClick={handleGoogleSignIn}
           disabled={isSigningIn}
-          className={`w-full flex items-center justify-center gap-2 py-2 mt-4 border rounded-lg ${
-            isSigningIn ? "bg-gray-100 cursor-not-allowed" : "hover:bg-gray-50"
-          }`}
+          className="w-full py-2 mt-2 text-white rounded-lg bg-red-500 hover:bg-red-600 transition duration-300"
         >
           {isSigningIn ? "Signing in..." : "Sign in with Google"}
         </button>
