@@ -15,7 +15,7 @@ export default function CheckoutSection({ closeSection }) {
         </button>
       </div>
 
-      <div className="lg:block">
+      <div className="lg:block -mt-[500px]">
         <h2>Checkout Section</h2>
         <div className="col-span-1 bg-gray-100 p-4 rounded-lg shadow">
           <h2 className="text-xl font-bold mb-4">Checkout</h2>

@@ -6,12 +6,12 @@ import ResturantDetails from "./ResturantDetails";
 
 export default function Home({ cart, setCart }) {
   return (
-    <div>
+    <div className="flex justify-center ">
       <div>
         <ProfileSection />
         <CheckoutSection cart={cart} setCart={setCart} />
       </div>
-      <HomeSection />
+      <HomeSection cart={cart} setCart={setCart} />
     </div>
   );
 }

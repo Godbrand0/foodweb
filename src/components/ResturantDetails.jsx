@@ -4,6 +4,8 @@ import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import NavIcons from "../Reuse/NavIcons";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../redux/cartSlice";
+import ProfileSection from "./ProfileSection";
+import CheckoutSection from "./CheckoutSection";
 
 const restaurantData = {
   "The Italian Place": [
@@ -55,57 +57,36 @@ export default function ResturantDetails() {
     dispatch(
       addToCart({ id: `${decodedName}-${index}`, name: foodName, price })
     );
-
-    // setCart((prevCart) => {
-    //   const existingItem = prevCart.find((item) => item.index === index);
-
-    //   if (existingItem) {
-    //     return prevCart.map((item) =>
-    //       item.index === index
-    //         ? {
-    //             ...item,
-    //             quantity: item.quantity + 1,
-    //             totalPrice: item.totalPrice + price,
-    //           }
-    //         : item
-    //     );
-    //   } else {
-    //     return [
-    //       ...prevCart,
-    //       {
-    //         index,
-    //         name: foodName,
-    //         price,
-    //         quantity: 1,
-    //         totalPrice: price,
-    //       },
-    //     ];
-    //   }
-    // });
   };
 
   return (
-    <div className="restaurant-details">
-      <h1 className="text-2xl font-bold mb-4">{decodedName}</h1>
-      <ul>
-        {foods.map((food, index) => (
-          <li
-            key={index}
-            className="flex justify-between items-center mb-4 bg-gray-100 p-4 rounded-lg shadow"
-          >
-            <span>
-              {food.name} - ${food.price.toFixed(2)}
-            </span>
-            <button
-              className="bg-orange-500 py-2 px-4 rounded-xl text-white font-bold flex items-center hover:opacity-75 transition-opacity"
-              onClick={() => handleAddToCart(index, food.name, food.price)}
+    <div className="flex justify-center gap-16">
+      <div>
+        <ProfileSection />
+        <CheckoutSection />
+      </div>
+      <div className="restaurant-details w-[700px]">
+        <h1 className="text-2xl font-bold mb-4">{decodedName}</h1>
+        <ul>
+          {foods.map((food, index) => (
+            <li
+              key={index}
+              className="flex justify-between items-center mb-4 bg-gray-100 p-4 rounded-lg shadow"
             >
-              <NavIcons icon={faCartShopping} />
-              <span className="ml-2">Add to cart</span>
-            </button>
-          </li>
-        ))}
-      </ul>
+              <span>
+                {food.name} - ${food.price.toFixed(2)}
+              </span>
+              <button
+                className="bg-orange-500 py-2 px-4 rounded-xl text-white font-bold flex items-center hover:opacity-75 transition-opacity"
+                onClick={() => handleAddToCart(index, food.name, food.price)}
+              >
+                <NavIcons icon={faCartShopping} />
+                <span className="ml-2">Add to cart</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

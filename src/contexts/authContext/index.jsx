@@ -10,37 +10,26 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Set up Firebase Authentication listener
-    const unsubscribe = onAuthStateChanged(auth, handleAuthStateChange);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+      setLoading(false);
+    });
 
-    // Clean up the listener on unmount
-    return unsubscribe;
+    return () => unsubscribe();
   }, []);
 
-  function handleAuthStateChange(user) {
-    if (user) {
-      setUser({ ...user });
-      if (!userLoggedIn) setUserLoggedIn(true); // Only update if it hasn't already
-    } else {
-      if (userLoggedIn) setUserLoggedIn(false); // Avoid redundant updates
-      setUser(null);
-    }
-    setLoading(false);
-  }
-
   const value = {
-    currentUser: user, // Corrected reference
-    userLoggedIn,
+    currentUser: user,
+    isLoggedIn: !!user, // Boolean flag for convenience
     loading,
   };
 
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+      {loading ? <p>Loading...</p> : children}
     </AuthContext.Provider>
   );
 }

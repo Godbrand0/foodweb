@@ -10,21 +10,24 @@ import { useNavigate } from "react-router-dom"; // Import useNavigate
 import Logout from "./Logout";
 
 export default function ProfileSection({ closeSection }) {
-  const { user } = useAuth(); // Get the authenticated user from context
+  const { currentUser } = useAuth(); // Get the authenticated user from context
   const navigate = useNavigate(); // Initialize navigate
   const [userData, setUserData] = useState({
     username: "",
     phone: "",
     address: "",
-    email: user?.email || "", // Get email from auth
+    email: currentUser?.email || "", // Get email from auth
   });
   const [loading, setLoading] = useState(false);
 
+  // Log userData to check if it's being updated correctly
+  console.log(userData);
+
   useEffect(() => {
-    if (user?.uid) {
+    if (currentUser?.uid) {
       const fetchUserData = async () => {
         try {
-          const docRef = doc(db, "users", user.uid);
+          const docRef = doc(db, "users", currentUser.uid); // Use currentUser.uid here
           const docSnap = await getDoc(docRef);
           if (docSnap.exists()) {
             setUserData(docSnap.data()); // Set the fetched data to state
@@ -41,7 +44,7 @@ export default function ProfileSection({ closeSection }) {
 
       fetchUserData();
     }
-  }, [user]);
+  }, [currentUser]); // Add currentUser as a dependency
 
   const handleEditProfile = () => {
     navigate("/userinfo"); // Navigate to the user info page
