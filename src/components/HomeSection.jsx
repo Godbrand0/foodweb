@@ -13,7 +13,7 @@ export default function HomeSection() {
   console.log(restaurants);
 
   return (
-    <div>
+    <div className="w-full">
       <Header content={"Home"} />
       <div>
         <h1>Restaurants</h1>

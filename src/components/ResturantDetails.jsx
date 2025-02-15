@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import NavIcons from "../Reuse/NavIcons";
@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../redux/cartSlice";
 import ProfileSection from "./ProfileSection";
 import CheckoutSection from "./CheckoutSection";
+import MobileNavigation from "./MobileNavigation";
 
 const restaurantData = {
   "The Italian Place": [
@@ -52,6 +53,12 @@ export default function ResturantDetails() {
 
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.cart);
+  const [activeSection, setActiveSection] = useState(""); // Track active section
+
+  // Function to update the active section
+  const handleSetActiveSection = (section) => {
+    setActiveSection(section);
+  };
 
   const handleAddToCart = (index, foodName, price) => {
     dispatch(
@@ -61,10 +68,6 @@ export default function ResturantDetails() {
 
   return (
     <div className="flex justify-center gap-16">
-      <div>
-        <ProfileSection />
-        <CheckoutSection />
-      </div>
       <div className="restaurant-details w-[700px]">
         <h1 className="text-2xl font-bold mb-4">{decodedName}</h1>
         <ul>
@@ -87,6 +90,18 @@ export default function ResturantDetails() {
           ))}
         </ul>
       </div>
+      {activeSection === "ProfileSection" && (
+        <div className="fixed top-0 left-0 w-full h-full bg-white z-50">
+          <ProfileSection closeSection={() => setActiveSection("")} />
+        </div>
+      )}
+
+      {activeSection === "CheckoutSection" && (
+        <div className="fixed top-0 left-0 w-full h-full bg-white z-50">
+          <CheckoutSection closeSection={() => setActiveSection("")} />
+        </div>
+      )}
+      <MobileNavigation setActiveSection={handleSetActiveSection} />
     </div>
   );
 }

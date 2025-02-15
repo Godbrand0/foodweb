@@ -55,9 +55,9 @@ export default function ProfileSection({ closeSection }) {
   }
 
   return (
-    <div>
+    <div className="">
       {/* Mobile Close Button */}
-      <div className="lg:hidden flex justify-end">
+      <div className="  ">
         <button onClick={closeSection}>
           <NavIcons icon={faXmark} classname="text-gray-500 text-2xl" />
         </button>
