@@ -15,25 +15,38 @@ export default function Home({ cart, setCart }) {
   return (
     <div className="relative min-h-screen flex justify-center">
       {/* Profile Section - Overlay */}
-      {activeSection === "ProfileSection" && (
-        <div className="fixed top-0 left-0 w-full h-full bg-white z-50">
-          <ProfileSection closeSection={() => setActiveSection("")} />
-        </div>
-      )}
+
+      <div className="">
+        {activeSection === "ProfileSection" && (
+          <div className="fixed top-0 left-0 w-full h-full bg-white z-50">
+            <ProfileSection closeSection={() => setActiveSection("")} />
+          </div>
+        )}
+      </div>
 
       {/* Checkout Section - Overlay */}
-      {activeSection === "CheckoutSection" && (
-        <div className="fixed top-0 left-0 w-full h-full bg-white z-50">
-          <CheckoutSection
-            cart={cart}
-            setCart={setCart}
-            closeSection={() => setActiveSection("")}
-          />
-        </div>
-      )}
+
+      <div className="">
+        {activeSection === "CheckoutSection" && (
+          <div className="fixed top-0 left-0 w-full h-full bg-white z-50">
+            <CheckoutSection
+              cart={cart}
+              setCart={setCart}
+              closeSection={() => setActiveSection("")}
+            />
+          </div>
+        )}
+      </div>
 
       {/* Home Section is always visible */}
-      <HomeSection cart={cart} setCart={setCart} />
+      <div className="flex justify-center gap-16 h-full">
+        <div className="hidden lg:flex flex-col justify-center ">
+          <ProfileSection />
+
+          <CheckoutSection />
+        </div>
+        <HomeSection cart={cart} setCart={setCart} />
+      </div>
 
       {/* Mobile Navigation: Visible only on small screens */}
       <div className="lg:hidden fixed bottom-0 left-0 w-full">

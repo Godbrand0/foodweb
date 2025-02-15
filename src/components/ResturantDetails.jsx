@@ -68,6 +68,11 @@ export default function ResturantDetails() {
 
   return (
     <div className="flex justify-center gap-16">
+      <div className="hidden lg:flex flex-col justify-center h-full">
+        <ProfileSection />
+
+        <CheckoutSection />
+      </div>
       <div className="restaurant-details w-[700px]">
         <h1 className="text-2xl font-bold mb-4">{decodedName}</h1>
         <ul>

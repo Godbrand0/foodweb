@@ -7,9 +7,9 @@ import NavIcons from "../Reuse/NavIcons";
 export default function CheckoutSection({ closeSection }) {
   const cart = useSelector((state) => state.cart.cart);
   return (
-    <div className="">
+    <div className="lg:-mt-[550px]">
       {/* Mobile Close Button */}
-      <div className="">
+      <div className="lg:hidden block">
         <button onClick={closeSection}>
           <NavIcons icon={faXmark} classname="text-gray-500 text-2xl" />
         </button>
