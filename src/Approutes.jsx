@@ -8,15 +8,33 @@ import ResturantDetails from "./components/ResturantDetails";
 import UserInformation from "./components/UserInformation";
 
 export default function Approutes() {
+  const { currentUser } = useAuth();
   return (
     <div>
       <Routes>
         <Route path="/" element={<Navigate to="/home" replace />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/restaurant/:name" element={<ResturantDetails />} />
+        <Route
+          path="/home"
+          element={currentUser ? <Home /> : <Navigate to="/login" replace />}
+        />
+        <Route
+          path="/restaurant/:name"
+          element={
+            currentUser ? (
+              <ResturantDetails />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/userinfo" element={<UserInformation />} />
+        <Route
+          path="/userinfo"
+          element={
+            currentUser ? <UserInformation /> : <Navigate to="/login" replace />
+          }
+        />
         {/* Add a catch-all route for undefined paths */}
         <Route path="*" element={<Navigate to="/home" replace />} />
       </Routes>

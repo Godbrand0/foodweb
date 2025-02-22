@@ -68,7 +68,7 @@ export default function ResturantDetails() {
 
   return (
     <div className="flex justify-center gap-16">
-      <div className="hidden lg:flex flex-col justify-center h-full">
+      <div className="hidden lg:flex flex-col gap-10 justify-center h-full">
         <ProfileSection />
 
         <CheckoutSection />

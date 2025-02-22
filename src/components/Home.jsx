@@ -40,7 +40,7 @@ export default function Home({ cart, setCart }) {
 
       {/* Home Section is always visible */}
       <div className="flex justify-center gap-16 h-full">
-        <div className="hidden lg:flex flex-col justify-center ">
+        <div className="hidden lg:flex flex-col gap-8 justify-center ">
           <ProfileSection />
 
           <CheckoutSection />
