@@ -53,8 +53,8 @@ export default function Login() {
   };
 
   return (
-    <div className="flex justify-center bg-black items-center min-h-screen">
-      <div className="w-1/3 p-6 shadow-xl border-none rounded-lg">
+    <div className="lg:flex h-screen overflow-hidden justify-center bg-black items-center min-h-screen">
+      <div className="lg:w-1/3 p-6 shadow-xl border-none rounded-lg">
         <h3 className="text-xl font-semibold text-center mb-4">Log In</h3>
         <form onSubmit={handleSubmit} className="space-y-4">
           <Inputs
@@ -101,7 +101,7 @@ export default function Login() {
       <img
         src={spagetti_1}
         sizes={20}
-        className="w-2/3 h-screen object-cover"
+        className="lg:w-2/3  object-cover"
         alt=""
       />
     </div>

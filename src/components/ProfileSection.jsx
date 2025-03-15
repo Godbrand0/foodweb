@@ -6,6 +6,7 @@ import { useAuth } from "../contexts/authContext"; // Make sure useAuth is impor
 import { doc, getDoc, collection, addDoc } from "firebase/firestore";
 import { db } from "../firebase/Firebase"; // Make sure Firebase is properly set up
 import { useNavigate } from "react-router-dom"; // Import useNavigate
+import user from "../assets/user_17740832.png";
 
 import Logout from "./Logout";
 
@@ -71,40 +72,45 @@ export default function ProfileSection({ closeSection }) {
   }
 
   return (
-    <div className="">
+    <div className="w-screen h-screen ">
       {/* Mobile Close Button */}
-      <div className=" lg:hidden block">
+      <div className=" lg:hidden flex justify-between m-3">
         <button onClick={closeSection}>
-          <NavIcons icon={faXmark} classname="text-gray-500 text-2xl" />
+          <NavIcons icon={faXmark} classname="text-white text-2xl" />
+        </button>
+        <button>
+          <Logout />
         </button>
       </div>
-
-      <ul>
-        <li>
-          <span>Username:</span>
-          <p>{userData.username || "N/A"}</p>
-        </li>
-        <li>
-          <span>Phone:</span>
-          <p>{userData.phone || "N/A"}</p>
-        </li>
-        <li>
-          <span>Address:</span>
-          <p>{userData.address || "N/A"}</p>
-        </li>
-        <li>
-          <span>Email:</span>
-          <p>{userData.email}</p>
-        </li>
-      </ul>
-      <button
-        onClick={handleEditProfile}
-        className="w-full py-2 mt-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300"
-      >
-        Edit Profile
-      </button>
-
-      <Logout />
+      <div className="flex flex-col gap-5 mt-24">
+        <div className="mx-auto lg:w-24 lg:h-24 w-11 h-11">
+          <img src={user} alt="" className="" />
+        </div>
+        <ul className="lg:grid grid-cols-2 space-y-6 text-center font-bold text-xl">
+          <li>
+            <span>Username:</span>
+            <p>{userData.username || "N/A"}</p>
+          </li>
+          <li>
+            <span>Phone:</span>
+            <p>{userData.phone || "N/A"}</p>
+          </li>
+          <li>
+            <span>Address:</span>
+            <p>{userData.address || "N/A"}</p>
+          </li>
+          <li>
+            <span>Email:</span>
+            <p>{userData.email}</p>
+          </li>
+        </ul>
+        <button
+          onClick={handleEditProfile}
+          className="w-28 py-2 mt-8 mx-auto bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300"
+        >
+          Edit Profile
+        </button>
+      </div>
     </div>
   );
 }

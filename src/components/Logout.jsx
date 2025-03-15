@@ -1,6 +1,7 @@
 import React from "react";
 import { doSignOut } from "../firebase/Auth"; // Import sign-out function
 import { useNavigate } from "react-router-dom";
+import { LogOut } from "lucide-react";
 
 export default function Logout() {
   const navigate = useNavigate();
@@ -15,12 +16,10 @@ export default function Logout() {
   };
 
   return (
-    <div className="flex py-6">
-      <button
-        onClick={handleLogout}
-        className="px-4 py-2 h-12 w-24 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300"
-      >
-        Logout
+    <div className="cursor-pointer" onClick={handleLogout}>
+      <button className="hidden lg:block">Logout</button>
+      <button className="lg:hidden">
+        <LogOut className="text-white" />
       </button>
     </div>
   );

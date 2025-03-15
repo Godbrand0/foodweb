@@ -7,17 +7,35 @@ import Home from "./components/Home";
 import ResturantDetails from "./components/ResturantDetails";
 import UserInformation from "./components/UserInformation";
 import Navbar from "./components/Navbar";
+import ProfileSection from "./components/ProfileSection";
+import CheckoutSection from "./components/CheckoutSection";
 
 export default function Approutes() {
   const { currentUser } = useAuth();
   return (
-    <div>
-      <Navbar />
+    <div className="h-screen overflow-hidden">
+      {currentUser ? (
+        <Navbar className="block" />
+      ) : (
+        <Navigate to="/login" replace />
+      )}
       <Routes>
         <Route path="/" element={<Navigate to="/home" replace />} />
         <Route
           path="/home"
           element={currentUser ? <Home /> : <Navigate to="/login" replace />}
+        />
+        <Route
+          path="/profile"
+          element={
+            currentUser ? <ProfileSection /> : <Navigate to="/login" replace />
+          }
+        />
+        <Route
+          path="/cart"
+          element={
+            currentUser ? <CheckoutSection /> : <Navigate to="/login" replace />
+          }
         />
         <Route
           path="/restaurant/:name"

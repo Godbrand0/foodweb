@@ -68,11 +68,6 @@ export default function ResturantDetails() {
 
   return (
     <div className="flex justify-center gap-16">
-      <div className="hidden lg:flex flex-col gap-10 justify-center h-full">
-        <ProfileSection />
-
-        <CheckoutSection />
-      </div>
       <div className="restaurant-details w-[700px]">
         <h1 className="text-2xl font-bold mb-4">{decodedName}</h1>
         <ul>
@@ -89,7 +84,6 @@ export default function ResturantDetails() {
                 onClick={() => handleAddToCart(index, food.name, food.price)}
               >
                 <NavIcons icon={faCartShopping} />
-                <span className="ml-2">Add to cart</span>
               </button>
             </li>
           ))}

@@ -18,12 +18,12 @@ export default function HomeSection() {
         <h1 className="text-orange-600 text-4xl my-8 font-extrabold">
           Restaurants
         </h1>
-        <ul>
+        <ul className="my-5 lg:space-y-5 space-y-3">
           {restaurants.map((restaurant, index) => (
             <li key={index}>
               <Link
                 to={`/restaurant/${encodeURIComponent(restaurant.name)}`}
-                className="restaurant-link text-slate-300 text-5xl font-extrabold"
+                className="restaurant-link text-slate-300 lg:text-5xl text-4xl font-extrabold"
               >
                 {restaurant.name}
               </Link>

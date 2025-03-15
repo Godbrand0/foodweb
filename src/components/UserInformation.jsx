@@ -66,7 +66,7 @@ export default function UserInformation() {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
+    <div className="flex justify-center items-center min-h-screen sm:bg-[url('src/assets/top-view-delicious-round-pie-with-fruits-cream-dark-desk-tea-sugar-cookie-biscuit-cake-pie-sweet.jpg')] bg-contain bg-center">
       <div className="w-96 p-6 shadow-xl border rounded-lg">
         <h3 className="text-xl font-semibold text-center mb-4">
           User Information
