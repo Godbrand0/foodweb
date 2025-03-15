@@ -14,16 +14,12 @@ export default function Approutes() {
   const { currentUser } = useAuth();
   return (
     <div className="h-screen overflow-hidden">
-      {currentUser ? (
-        <Navbar className="block" />
-      ) : (
-        <Navigate to="/signup" replace />
-      )}
+      {currentUser && <Navbar className="block" />}
       <Routes>
         <Route path="/" element={<Navigate to="/home" replace />} />
         <Route
           path="/home"
-          element={currentUser ? <Home /> : <Navigate to="/signup" replace />}
+          element={currentUser ? <Home /> : <Navigate to="/login" replace />}
         />
         <Route
           path="/profile"
@@ -47,8 +43,14 @@ export default function Approutes() {
             )
           }
         />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
+        <Route
+          path="/login"
+          element={currentUser ? <Navigate to="/home" replace /> : <Login />}
+        />
+        <Route
+          path="/signup"
+          element={currentUser ? <Navigate to="/home" replace /> : <SignUp />}
+        />
         <Route
           path="/userinfo"
           element={
