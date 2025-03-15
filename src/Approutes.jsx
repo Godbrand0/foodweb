@@ -17,13 +17,13 @@ export default function Approutes() {
       {currentUser ? (
         <Navbar className="block" />
       ) : (
-        <Navigate to="/login" replace />
+        <Navigate to="/signup" replace />
       )}
       <Routes>
         <Route path="/" element={<Navigate to="/home" replace />} />
         <Route
           path="/home"
-          element={currentUser ? <Home /> : <Navigate to="/login" replace />}
+          element={currentUser ? <Home /> : <Navigate to="/signup" replace />}
         />
         <Route
           path="/profile"
