@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/authContext";
-import { doCreateUserWithEmailAndPassword } from "../firebase/Auth";
+import {
+  doCreateUserWithEmailAndPassword,
+  doSignInWithGoogle,
+} from "../firebase/Auth";
 import Inputs from "../Reuse/Inputs";
+import spagetti_1 from "../assets/delicious-epic-food-presentation.jpg";
 export default function SignUp() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -21,6 +25,7 @@ export default function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     setErrorMessage(""); // Clear previous errors
 
     if (password !== confirmPassword) {
@@ -38,10 +43,23 @@ export default function SignUp() {
       setIsRegistering(false);
     }
   };
+  const handleGoogleSignIn = async () => {
+    setIsSigningIn(true);
+    setErrorMessage(""); // Clear previous errors
+
+    try {
+      await doSignInWithGoogle();
+      navigate("/home");
+    } catch (error) {
+      setErrorMessage(error.message);
+    } finally {
+      setIsSigningIn(false);
+    }
+  };
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
-      <div className="w-96 p-6 shadow-xl border rounded-lg">
+    <div className="flex justify-center bg-black items-center min-h-screen">
+      <div className="w-1/3 p-6 shadow-xl border-none rounded-lg">
         <h3 className="text-xl font-semibold text-center mb-4">Sign Up</h3>
         <form onSubmit={handleSubmit} className="space-y-4">
           <Inputs
@@ -76,14 +94,27 @@ export default function SignUp() {
           >
             {isRegistering ? "Registering..." : "Sign Up"}
           </button>
+          <button
+            onClick={handleGoogleSignIn}
+            disabled={isRegistering}
+            className="w-full py-2 mt-2 text-white rounded-lg bg-red-500 hover:bg-red-600 transition duration-300"
+          >
+            {isRegistering ? "Signing in..." : "Sign in with Google"}
+          </button>
         </form>
-        <p className="text-center text-sm mt-4">
+        <p className="text-center text-sm mt-4 text-orange-500">
           Already have an account?
           <Link to="/login" className="text-blue-500 hover:underline">
             Log In
           </Link>
         </p>
       </div>
+      <img
+        src={spagetti_1}
+        sizes={20}
+        className="w-2/3 h-screen object-cover"
+        alt=""
+      />
     </div>
   );
 }

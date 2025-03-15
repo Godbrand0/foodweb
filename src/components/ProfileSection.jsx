@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import NavIcons from "../Reuse/NavIcons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../contexts/authContext"; // Make sure useAuth is imported
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, collection, addDoc } from "firebase/firestore";
 import { db } from "../firebase/Firebase"; // Make sure Firebase is properly set up
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 
@@ -22,6 +22,22 @@ export default function ProfileSection({ closeSection }) {
 
   // Log userData to check if it's being updated correctly
   console.log(userData);
+
+  const addFoodToRestaurant = async (restaurantId, foodData) => {
+    try {
+      const foodsRef = collection(db, `restaurants/${restaurantId}/foods`);
+      await addDoc(foodsRef, foodData);
+      console.log("food added");
+    } catch (e) {
+      console.error("Error adding food document: ", e);
+    }
+  };
+  useEffect(() => {
+    addFoodToRestaurant("WEgA4SUfWi1TVan1KLD9", {
+      name: "Pizza Roll",
+      price: 12.99,
+    });
+  }, []);
 
   useEffect(() => {
     if (currentUser?.uid) {
@@ -61,10 +77,6 @@ export default function ProfileSection({ closeSection }) {
         <button onClick={closeSection}>
           <NavIcons icon={faXmark} classname="text-gray-500 text-2xl" />
         </button>
-      </div>
-
-      <div className="lg:block hidden">
-        <h2>Profile Section</h2>
       </div>
 
       <ul>

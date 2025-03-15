@@ -6,11 +6,13 @@ import SignUp from "./components/SignUp";
 import Home from "./components/Home";
 import ResturantDetails from "./components/ResturantDetails";
 import UserInformation from "./components/UserInformation";
+import Navbar from "./components/Navbar";
 
 export default function Approutes() {
   const { currentUser } = useAuth();
   return (
     <div>
+      <Navbar />
       <Routes>
         <Route path="/" element={<Navigate to="/home" replace />} />
         <Route

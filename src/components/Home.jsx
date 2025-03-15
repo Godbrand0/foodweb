@@ -39,13 +39,10 @@ export default function Home({ cart, setCart }) {
       </div>
 
       {/* Home Section is always visible */}
-      <div className="flex justify-center gap-16 h-full">
-        <div className="hidden lg:flex flex-col gap-8 justify-center ">
-          <ProfileSection />
-
-          <CheckoutSection />
+      <div className="w-screen bg-[url('src/assets/halloween-party.jpg')] bg-cover bg-center ">
+        <div className="h-screen container mx-auto ">
+          <HomeSection cart={cart} setCart={setCart} />
         </div>
-        <HomeSection cart={cart} setCart={setCart} />
       </div>
 
       {/* Mobile Navigation: Visible only on small screens */}

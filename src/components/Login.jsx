@@ -6,6 +6,7 @@ import {
   doSignInWithGoogle,
 } from "../firebase/Auth";
 import Inputs from "../Reuse/Inputs";
+import spagetti_1 from "../assets/seafood-sushi-dish-with-details-simple-black-background.jpg";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -52,8 +53,8 @@ export default function Login() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
-      <div className="w-96 p-6 shadow-xl border rounded-lg">
+    <div className="flex justify-center bg-black items-center min-h-screen">
+      <div className="w-1/3 p-6 shadow-xl border-none rounded-lg">
         <h3 className="text-xl font-semibold text-center mb-4">Log In</h3>
         <form onSubmit={handleSubmit} className="space-y-4">
           <Inputs
@@ -90,13 +91,19 @@ export default function Login() {
         >
           {isSigningIn ? "Signing in..." : "Sign in with Google"}
         </button>
-        <p className="text-center text-sm mt-4">
+        <p className="text-center text-sm mt-4 text-orange-500">
           Don't have an account?{" "}
           <Link to="/signup" className="text-blue-500 hover:underline">
             Sign Up
           </Link>
         </p>
       </div>
+      <img
+        src={spagetti_1}
+        sizes={20}
+        className="w-2/3 h-screen object-cover"
+        alt=""
+      />
     </div>
   );
 }

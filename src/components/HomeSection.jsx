@@ -14,15 +14,16 @@ export default function HomeSection() {
 
   return (
     <div className="w-full">
-      <Header content={"Home"} />
       <div>
-        <h1>Restaurants</h1>
+        <h1 className="text-orange-600 text-4xl my-8 font-extrabold">
+          Restaurants
+        </h1>
         <ul>
           {restaurants.map((restaurant, index) => (
             <li key={index}>
               <Link
                 to={`/restaurant/${encodeURIComponent(restaurant.name)}`}
-                className="restaurant-link"
+                className="restaurant-link text-slate-300 text-5xl font-extrabold"
               >
                 {restaurant.name}
               </Link>

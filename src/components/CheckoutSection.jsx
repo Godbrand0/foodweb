@@ -7,7 +7,7 @@ import NavIcons from "../Reuse/NavIcons";
 export default function CheckoutSection({ closeSection }) {
   const cart = useSelector((state) => state.cart.cart);
   return (
-    <div className="lg:-mt-[550px]">
+    <div className="">
       {/* Mobile Close Button */}
       <div className="lg:hidden block">
         <button onClick={closeSection}>
@@ -16,7 +16,6 @@ export default function CheckoutSection({ closeSection }) {
       </div>
 
       <div className="lg:block ">
-        <h2>Checkout Section</h2>
         <div className="col-span-1 bg-gray-100 p-4 rounded-lg shadow">
           <h2 className="text-xl font-bold mb-4">Checkout</h2>
           {cart.length > 0 ? (
@@ -34,11 +33,19 @@ export default function CheckoutSection({ closeSection }) {
             <p>Your cart is empty.</p>
           )}
           {cart.length > 0 && (
-            <div className="mt-4 font-bold">
-              Total: $
-              {cart
-                .reduce((total, item) => total + item.totalPrice, 0)
-                .toFixed(2)}
+            <div>
+              <div className="mt-4 font-bold">
+                Total: $
+                {cart
+                  .reduce((total, item) => total + item.totalPrice, 0)
+                  .toFixed(2)}
+              </div>
+              <button
+                className="bg-orange-500 py-2 px-4 my-4 rounded-xl text-white font-bold flex items-center hover:opacity-75 transition-opacity"
+                onClick={() => handleAddToCart(index, food.name, food.price)}
+              >
+                <span className="ml-2">Place Order</span>
+              </button>
             </div>
           )}
         </div>
