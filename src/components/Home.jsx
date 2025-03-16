@@ -21,7 +21,7 @@ export default function Home({ cart, setCart }) {
 
         <div className="">
           {activeSection === "ProfileSection" && (
-            <div className="fixed top-0 left-0 w-full h-screen bg-[url('src/assets/top-view-sketchbook-fresh-vegetables-colorful-bell-peppers-green-chili-peppers-tomatoes-black-peppercorns-rustic-wood.jpg')] bg-contain bg-center z-50">
+            <div>
               <ProfileSection closeSection={() => setActiveSection("")} />
             </div>
           )}
@@ -31,7 +31,7 @@ export default function Home({ cart, setCart }) {
 
         <div className="">
           {activeSection === "CheckoutSection" && (
-            <div className="fixed top-0 left-0 w-full h-full  bg-[url('src/assets/yellow-cherries-wooden-bowl-bottom-corner.jpg')] bg-contain bg-center  z-50">
+            <div>
               <CheckoutSection
                 cart={cart}
                 setCart={setCart}

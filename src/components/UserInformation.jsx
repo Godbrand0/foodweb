@@ -52,7 +52,7 @@ export default function UserInformation() {
       setUsername(""); // Clear form fields
       setAddress("");
       setPhone("");
-      navigate("/"); // Redirect to Home page after successful submission
+      navigate("/profile"); // Redirect to Home page after successful submission
     } catch (error) {
       console.error("Error saving user information:", error);
       alert("Error saving user information. Please try again.");

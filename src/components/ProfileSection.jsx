@@ -72,7 +72,7 @@ export default function ProfileSection({ closeSection }) {
   }
 
   return (
-    <div className="w-screen h-screen ">
+    <div className="w-screen h-screen fixed top-0 left-0 bg-[url('src/assets/top-view-sketchbook-fresh-vegetables-colorful-bell-peppers-green-chili-peppers-tomatoes-black-peppercorns-rustic-wood.jpg')] bg-contain bg-center z-50 lg:bg-white">
       {/* Mobile Close Button */}
       <div className=" lg:hidden flex justify-between m-3">
         <button onClick={closeSection}>
