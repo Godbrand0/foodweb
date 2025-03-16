@@ -1,11 +1,31 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { auth } from "../firebase/Firebase";
+import { sendEmailVerification } from "firebase/auth";
 import { History } from "lucide-react";
 import NavIcons from "../Reuse/NavIcons";
 
 export default function CheckoutSection({ closeSection }) {
   const cart = useSelector((state) => state.cart.cart);
+  const user = auth.currentUser;
+
+  const handlePlaceOrder = () => {
+    if (!user) {
+      alert("You must be logged in to pace an order");
+      return;
+    }
+
+    if (!user.emailVerified) {
+      alert("Please verify your email to place an order");
+      sendEmailVerification(user)
+        .then(() => alert("A new verification email has been sent!"))
+        .catch((err) => alert(err.message));
+      return;
+    }
+
+    alert("Order placed succesfully");
+  };
   return (
     <div className="">
       {/* Mobile Close Button */}
@@ -50,7 +70,7 @@ export default function CheckoutSection({ closeSection }) {
               </div>
               <button
                 className="bg-orange-500 py-2 px-4 my-4 rounded-xl text-white font-bold flex items-center hover:opacity-75 transition-opacity"
-                onClick={() => alert("Order placed successfully!")}
+                onClick={handlePlaceOrder}
               >
                 <span className="ml-2">Place Order</span>
               </button>
