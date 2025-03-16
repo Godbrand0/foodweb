@@ -1,4 +1,8 @@
-import { GoogleAuthProvider, signOut } from "firebase/auth"; // Fixed import
+import {
+  GoogleAuthProvider,
+  signOut,
+  sendEmailVerification,
+} from "firebase/auth"; // Fixed import
 import { auth } from "./Firebase";
 import {
   createUserWithEmailAndPassword,
@@ -14,6 +18,9 @@ export const doCreateUserWithEmailAndPassword = async (email, password) => {
       email,
       password
     );
+    const user = userCredential;
+    //send email verification
+    await sendEmailVerification(user);
     return userCredential; // Returns user information
   } catch (error) {
     console.error("Error creating user:", error);
@@ -29,6 +36,11 @@ export const doSignInWithEmailAndPassword = async (email, password) => {
       email,
       password
     );
+    const user = userCredential.user;
+
+    if (!user.emailVerified) {
+      throw new Error("Email not verified. Please check your inbox");
+    }
     return userCredential;
   } catch (error) {
     console.error("Error signing in:", error);

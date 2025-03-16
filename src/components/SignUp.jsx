@@ -13,6 +13,7 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const [isRegistering, setIsRegistering] = useState(false);
 
   const { userLoggedIn } = useAuth();
@@ -25,7 +26,7 @@ export default function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setSuccessMessage("");
     setErrorMessage(""); // Clear previous errors
 
     if (password !== confirmPassword) {
@@ -36,7 +37,8 @@ export default function SignUp() {
     setIsRegistering(true);
     try {
       await doCreateUserWithEmailAndPassword(email, password);
-      navigate("/home");
+      setSuccessMessage("verification email sent! Please check your inbox");
+      setTimeout(() => navigate("/login"), 4000);
     } catch (error) {
       setErrorMessage(error.message);
     } finally {
@@ -61,6 +63,12 @@ export default function SignUp() {
     <div className="lg:flex h-screen overflow-hidden justify-center bg-black items-center min-h-screen">
       <div className="lg:w-1/3 p-6 shadow-xl border-none rounded-lg">
         <h3 className="text-xl font-semibold text-center mb-4">Sign Up</h3>
+        {errorMessage && (
+          <p className="text-red-500 text-sm font-bold my-2">{errorMessage}</p>
+        )}
+        {successMessage && (
+          <p className="text-green-500 text-sm font-bold">{successMessage}</p>
+        )}
         <form onSubmit={handleSubmit} className="space-y-4">
           <Inputs
             type="email"
@@ -80,9 +88,7 @@ export default function SignUp() {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
-          {errorMessage && (
-            <p className="text-red-500 text-sm font-bold">{errorMessage}</p>
-          )}
+
           <button
             type="submit"
             disabled={isRegistering}
