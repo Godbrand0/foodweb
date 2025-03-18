@@ -27,7 +27,7 @@ export default function CheckoutSection({ closeSection }) {
     alert("Order placed succesfully");
   };
   return (
-    <div className="fixed top-0 left-0 w-full h-full  bg-[url('src/assets/yellow-cherries-wooden-bowl-bottom-corner.jpg')] bg-contain bg-center  z-50 lg:bg-white">
+    <div className="fixed top-0 left-0 w-full h-full  z-50 lg:bg-white bg-yellow-600">
       {/* Mobile Close Button */}
       <div className="lg:hidden flex justify-between m-3">
         <button onClick={closeSection}>

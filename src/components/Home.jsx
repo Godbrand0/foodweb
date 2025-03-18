@@ -42,7 +42,7 @@ export default function Home({ cart, setCart }) {
         </div>
 
         {/* Home Section is always visible */}
-        <div className="w-screen bg-[url('src/assets/halloween-party.jpg')] bg-cover bg-center">
+        <div className="w-screen bg-slate-800">
           <div className="h-screen container mx-auto ">
             <HomeSection cart={cart} setCart={setCart} />
           </div>

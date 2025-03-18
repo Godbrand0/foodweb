@@ -72,7 +72,7 @@ export default function ProfileSection({ closeSection }) {
   }
 
   return (
-    <div className="w-screen h-screen fixed top-0 left-0 bg-[url('src/assets/top-view-sketchbook-fresh-vegetables-colorful-bell-peppers-green-chili-peppers-tomatoes-black-peppercorns-rustic-wood.jpg')] bg-contain bg-center z-50 lg:bg-white">
+    <div className="w-screen h-screen fixed z-50 bg-slate-200 lg:bg-white">
       {/* Mobile Close Button */}
       <div className=" lg:hidden flex justify-between m-3">
         <button onClick={closeSection}>
@@ -85,7 +85,7 @@ export default function ProfileSection({ closeSection }) {
           <Logout className="text-white text-2xl  bg-orange-500 p-2 rounded-lg" />
         </button>
       </div>
-      <div className="flex flex-col gap-5 lg:mt-24 mt-48">
+      <div className="flex flex-col gap-5 mt-24">
         <div className="mx-auto lg:w-24 lg:h-24 w-11 h-11">
           <img src={user} alt="" className="" />
         </div>
