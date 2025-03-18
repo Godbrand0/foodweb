@@ -31,10 +31,16 @@ export default function CheckoutSection({ closeSection }) {
       {/* Mobile Close Button */}
       <div className="lg:hidden flex justify-between m-3">
         <button onClick={closeSection}>
-          <NavIcons icon={faXmark} classname="text-white text-2xl" />
+          <NavIcons
+            icon={faXmark}
+            classname="text-white text-2xl bg-orange-500 p-2 rounded-lg"
+          />
         </button>
         <button>
-          <History className="text-white " />
+          <History
+            size={45}
+            className="text-white   bg-orange-500 p-2 rounded-lg"
+          />
         </button>
       </div>
 

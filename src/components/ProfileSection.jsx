@@ -76,13 +76,16 @@ export default function ProfileSection({ closeSection }) {
       {/* Mobile Close Button */}
       <div className=" lg:hidden flex justify-between m-3">
         <button onClick={closeSection}>
-          <NavIcons icon={faXmark} classname="text-white text-2xl" />
+          <NavIcons
+            icon={faXmark}
+            classname="text-white text-2xl  bg-orange-500 p-2 rounded-lg"
+          />
         </button>
-        <button>
-          <Logout />
+        <button className="text-white text-2xl  bg-orange-500 p-2 rounded-lg">
+          <Logout className="text-white text-2xl  bg-orange-500 p-2 rounded-lg" />
         </button>
       </div>
-      <div className="flex flex-col gap-5 mt-24">
+      <div className="flex flex-col gap-5 lg:mt-24 mt-48">
         <div className="mx-auto lg:w-24 lg:h-24 w-11 h-11">
           <img src={user} alt="" className="" />
         </div>
