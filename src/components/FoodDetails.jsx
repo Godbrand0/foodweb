@@ -9,9 +9,16 @@ export default function FoodDetails({ food, closeModal }) {
         <button onClick={closeModal} className="absolute top-2 right-2">
           <X />
         </button>
-        <img src={food.image} alt="" />
-        <h2 className="text-lg font-bold">{food.name}</h2>
-        <p className="mt-2">{food.details}</p>
+        <div className="flex flex-col justify-center items-center mt-6">
+          <img
+            src={food.image}
+            alt={food.name}
+            className=" object- rounded-lg"
+          />
+          <h2 className="text-lg font-bold">{food.name}</h2>
+          <p>{food.price}</p>
+          <p className="mt-2">{food.details}</p>
+        </div>
       </div>
     </div>
   );

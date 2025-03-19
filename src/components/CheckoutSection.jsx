@@ -44,7 +44,7 @@ export default function CheckoutSection({ closeSection }) {
         </button>
       </div>
 
-      <div className=" w-2/3 mx-auto">
+      <div className=" lg:w-2/3 mx-auto">
         <div className="col-span-1 p-4 rounded-lg shadow">
           <h2 className="text-xl lg:text-black text-white font-bold mb-4">
             Checkout
@@ -58,6 +58,13 @@ export default function CheckoutSection({ closeSection }) {
                 >
                   <span>
                     {item.name} (x{item.quantity})
+                  </span>
+                  <span className="lg:w-24 w-11 h-10 rounded-lg object-cover">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-full h-full object-cover rounded-lg"
+                    />
                   </span>
                   <span>${item.totalPrice.toFixed(2)}</span>
                 </li>
