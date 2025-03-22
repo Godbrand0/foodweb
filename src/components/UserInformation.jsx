@@ -1,61 +1,52 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
-import Inputs from "../Reuse/Inputs";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/authContext";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../firebase/Firebase";
+import Inputs from "../Reuse/Inputs";
 
 export default function UserInformation() {
-  // Separate state for each input field
-  const [username, setUsername] = useState("");
-  const [address, setAddress] = useState("");
-  const [phone, setPhone] = useState("");
+  const { currentUser, loading: authLoading } = useAuth();
+  const navigate = useNavigate();
+  const userId = currentUser?.uid;
+
   const [loading, setLoading] = useState(false);
 
-  const { currentUser, loading: authLoading } = useAuth(); // Corrected destructuring
-  const userId = currentUser?.uid; // Use currentUser instead of user
-  const navigate = useNavigate(); // Initialize navigate for redirection
+  // react-hook-form for cleaner validation
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors, isSubmitting },
+  } = useForm();
 
-  // Redirect to login if user is not authenticated
   useEffect(() => {
-    console.log("Auth Loading:", authLoading);
-    console.log("Current User:", currentUser);
     if (!authLoading && !currentUser) {
-      navigate("/login"); // Redirect to login if user is not authenticated
+      navigate("/login");
     }
   }, [authLoading, currentUser, navigate]);
 
-  // Handle change for each input field
-  const handleUsernameChange = (e) => setUsername(e.target.value);
-  const handleAddressChange = (e) => setAddress(e.target.value);
-  const handlePhoneChange = (e) => setPhone(e.target.value);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const onSubmit = async (data) => {
     if (!userId) {
       alert("User not authenticated");
       return;
     }
 
     setLoading(true);
-
     try {
       await setDoc(doc(db, "users", userId), {
-        username,
-        address,
-        phone,
-        email: currentUser.email, // Use currentUser for email
+        ...data,
+        email: currentUser.email,
       });
 
       alert("User information saved");
-      setUsername(""); // Clear form fields
-      setAddress("");
-      setPhone("");
-      navigate("/profile"); // Redirect to Home page after successful submission
+      navigate("/profile");
     } catch (error) {
       console.error("Error saving user information:", error);
-      alert("Error saving user information. Please try again.");
+      setError("root", {
+        message: "Error saving user information. Try again.",
+      });
     } finally {
       setLoading(false);
     }
@@ -66,42 +57,59 @@ export default function UserInformation() {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen sm:bg-[url('src/assets/top-view-delicious-round-pie-with-fruits-cream-dark-desk-tea-sugar-cookie-biscuit-cake-pie-sweet.jpg')] bg-contain bg-center">
-      <div className="w-96 p-6 shadow-xl border rounded-lg">
-        <h3 className="text-xl font-semibold text-center mb-4">
+    <div className="flex justify-center items-center min-h-screen bg-black">
+      <div className="w-full max-w-md p-6 bg-white shadow-xl border rounded-lg">
+        <h3 className="text-xl font-semibold text-center mb-4 text-gray-800">
           User Information
         </h3>
-        <form onSubmit={handleSubmit} className="space-y-4">
+
+        {errors.root && (
+          <p className="text-red-500 text-sm text-center">
+            {errors.root.message}
+          </p>
+        )}
+
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <Inputs
             type="text"
             placeholder="Username"
-            name="username"
-            value={username} // Use username state
-            onChange={handleUsernameChange}
+            {...register("username", { required: "Username is required" })}
           />
+          {errors.username && (
+            <p className="text-red-500 text-sm">{errors.username.message}</p>
+          )}
+
           <Inputs
             type="text"
             placeholder="Address"
-            name="address"
-            value={address} // Use address state
-            onChange={handleAddressChange}
+            {...register("address", { required: "Address is required" })}
           />
+          {errors.address && (
+            <p className="text-red-500 text-sm">{errors.address.message}</p>
+          )}
 
           <Inputs
-            type="number"
+            type="tel"
             placeholder="Phone Number"
-            name="phone"
-            value={phone} // Use phone state
-            onChange={handlePhoneChange}
+            {...register("phone", {
+              required: "Phone number is required",
+              pattern: { value: /^[0-9]+$/, message: "Invalid phone number" },
+            })}
           />
+          {errors.phone && (
+            <p className="text-red-500 text-sm">{errors.phone.message}</p>
+          )}
+
           <button
             type="submit"
-            disabled={loading}
-            className={`w-full py-2 ${
-              loading ? "bg-gray-400" : "bg-blue-500"
-            } text-white rounded-lg hover:bg-blue-600 transition duration-300`}
+            disabled={isSubmitting || loading}
+            className={`w-full py-2 text-white rounded-lg transition duration-300 ${
+              loading || isSubmitting
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-blue-500 hover:bg-blue-600"
+            }`}
           >
-            {loading ? "Saving..." : "Submit"}
+            {loading || isSubmitting ? "Saving..." : "Submit"}
           </button>
         </form>
       </div>

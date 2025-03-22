@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/authContext";
 import {
@@ -10,26 +11,29 @@ import spagetti_1 from "../assets/seafood-sushi-dish-with-details-simple-black-b
 
 export default function Login() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { userLoggedIn } = useAuth();
   const [errorMessage, setErrorMessage] = useState("");
   const [isSigningIn, setIsSigningIn] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
-  const { userLoggedIn } = useAuth();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   useEffect(() => {
     if (userLoggedIn) {
       navigate("/home", { replace: true });
     }
-  }, [userLoggedIn, navigate]); // Added `navigate` to dependencies for consistency
+  }, [userLoggedIn, navigate]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (data) => {
     setIsSigningIn(true);
-    setErrorMessage(""); // Clear previous errors
+    setErrorMessage("");
 
     try {
-      await doSignInWithEmailAndPassword(email, password);
+      await doSignInWithEmailAndPassword(data.email, data.password);
       navigate("/home");
     } catch (error) {
       setErrorMessage(error.message);
@@ -37,10 +41,13 @@ export default function Login() {
       setIsSigningIn(false);
     }
   };
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
 
   const handleGoogleSignIn = async () => {
     setIsSigningIn(true);
-    setErrorMessage(""); // Clear previous errors
+    setErrorMessage("");
 
     try {
       await doSignInWithGoogle();
@@ -55,23 +62,41 @@ export default function Login() {
   return (
     <div className="lg:flex h-screen overflow-hidden justify-center bg-black items-center min-h-screen">
       <div className="lg:w-1/3 p-6 shadow-xl border-none rounded-lg">
-        <h3 className="text-xl font-semibold text-center mb-4">Log In</h3>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <h3 className="text-xl font-semibold text-center mb-4 text-orange-600">
+          Welcome Back!
+        </h3>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <Inputs
             type="email"
             placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            {...register("email", { required: "Email is required" })}
           />
-          <Inputs
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          {errors.email && (
+            <p className="text-red-500 text-sm">{errors.email.message}</p>
+          )}
+          <div className="relative">
+            <Inputs
+              placeholder="Password"
+              type={showPassword ? "text" : "password"}
+              {...register("password", { required: "Password is required" })}
+            />
+            <button
+              type="button"
+              onClick={togglePasswordVisibility}
+              className="absolute inset-y-0 right-2 text-[10px] text-gray-600"
+            >
+              {showPassword ? "HIDE" : "SHOW"}
+            </button>
+          </div>
+
+          {errors.password && (
+            <p className="text-red-500 text-sm">{errors.password.message}</p>
+          )}
+
           {errorMessage && (
             <p className="text-red-500 text-sm font-bold">{errorMessage}</p>
           )}
+
           <button
             type="submit"
             disabled={isSigningIn}
@@ -84,6 +109,7 @@ export default function Login() {
             {isSigningIn ? "Signing in..." : "Log In"}
           </button>
         </form>
+
         <button
           onClick={handleGoogleSignIn}
           disabled={isSigningIn}
@@ -91,18 +117,21 @@ export default function Login() {
         >
           {isSigningIn ? "Signing in..." : "Sign in with Google"}
         </button>
+
         <p className="text-center text-sm mt-4 text-orange-500">
           Don't have an account?
           <Link to="/signup" className="text-blue-500 hover:underline">
+            {" "}
             Sign Up
           </Link>
         </p>
       </div>
+
       <img
         src={spagetti_1}
         sizes={20}
-        className="lg:w-2/3  object-cover"
-        alt=""
+        className="lg:w-2/3 object-cover"
+        alt="Background"
       />
     </div>
   );

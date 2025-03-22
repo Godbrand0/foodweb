@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/authContext";
 import {
@@ -7,16 +8,25 @@ import {
 } from "../firebase/Auth";
 import Inputs from "../Reuse/Inputs";
 import spagetti_1 from "../assets/delicious-epic-food-presentation.jpg";
+
 export default function SignUp() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-  const [isRegistering, setIsRegistering] = useState(false);
-
   const { userLoggedIn } = useAuth();
+  const [successMessage, setSuccessMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  // react-hook-form
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setError,
+    formState: { errors, isSubmitting },
+  } = useForm();
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
 
   useEffect(() => {
     if (userLoggedIn) {
@@ -24,38 +34,30 @@ export default function SignUp() {
     }
   }, [userLoggedIn, navigate]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (data) => {
     setSuccessMessage("");
-    setErrorMessage(""); // Clear previous errors
+    const { email, password, confirmPassword } = data;
 
     if (password !== confirmPassword) {
-      setErrorMessage("Passwords do not match");
+      setError("confirmPassword", { message: "Passwords do not match" });
       return;
     }
 
-    setIsRegistering(true);
     try {
       await doCreateUserWithEmailAndPassword(email, password);
-      setSuccessMessage("verification email sent! Please check your inbox");
+      setSuccessMessage("Verification email sent! Please check your inbox.");
       setTimeout(() => navigate("/login"), 4000);
     } catch (error) {
-      setErrorMessage(error.message);
-    } finally {
-      setIsRegistering(false);
+      setError("root", { message: error.message });
     }
   };
-  const handleGoogleSignIn = async () => {
-    setIsSigningIn(true);
-    setErrorMessage(""); // Clear previous errors
 
+  const handleGoogleSignIn = async () => {
     try {
       await doSignInWithGoogle();
       navigate("/home");
     } catch (error) {
-      setErrorMessage(error.message);
-    } finally {
-      setIsSigningIn(false);
+      setError("root", { message: error.message });
     }
   };
 
@@ -63,63 +65,105 @@ export default function SignUp() {
     <div className="lg:flex h-screen overflow-hidden justify-center bg-black items-center min-h-screen">
       <div className="lg:w-1/3 p-6 shadow-xl border-none rounded-lg">
         <h3 className="text-xl font-semibold text-center mb-4">Sign Up</h3>
-        {errorMessage && (
-          <p className="text-red-500 text-sm font-bold my-2">{errorMessage}</p>
-        )}
+
         {successMessage && (
           <p className="text-green-500 text-sm font-bold">{successMessage}</p>
         )}
-        <form onSubmit={handleSubmit} className="space-y-4">
+        {errors.root && (
+          <p className="text-red-500 text-sm font-bold">
+            {errors.root.message}
+          </p>
+        )}
+
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <Inputs
             type="email"
             placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value: /^\S+@\S+$/i,
+                message: "Invalid email address",
+              },
+            })}
           />
+          {errors.email && (
+            <p className="text-red-500 text-sm">{errors.email.message}</p>
+          )}
+          <div className="relative">
+            <Inputs
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              {...register("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 6,
+                  message: "Password must be at least 6 characters",
+                },
+              })}
+            />
+            <button
+              type="button"
+              onClick={togglePasswordVisibility}
+              className="absolute inset-y-0 right-2 text-[10px] text-gray-600"
+            >
+              {showPassword ? "HIDE" : "SHOW"}
+            </button>
+          </div>
+
+          {errors.password && (
+            <p className="text-red-500 text-sm">{errors.password.message}</p>
+          )}
+
           <Inputs
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <Inputs
-            type="password"
+            type={showPassword ? "text" : "password"}
             placeholder="Confirm Password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            {...register("confirmPassword", {
+              required: "Confirm your password",
+            })}
           />
+
+          {errors.confirmPassword && (
+            <p className="text-red-500 text-sm">
+              {errors.confirmPassword.message}
+            </p>
+          )}
 
           <button
             type="submit"
-            disabled={isRegistering}
+            disabled={isSubmitting}
             className={`w-full py-2 text-white rounded-lg ${
-              isRegistering
+              isSubmitting
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-blue-500 hover:bg-blue-600"
             }`}
           >
-            {isRegistering ? "Registering..." : "Sign Up"}
+            {isSubmitting ? "Registering..." : "Sign Up"}
           </button>
+
           <button
+            type="button"
             onClick={handleGoogleSignIn}
-            disabled={isRegistering}
+            disabled={isSubmitting}
             className="w-full py-2 mt-2 text-white rounded-lg bg-red-500 hover:bg-red-600 transition duration-300"
           >
-            {isRegistering ? "Signing in..." : "Sign in with Google"}
+            {isSubmitting ? "Signing in..." : "Sign in with Google"}
           </button>
         </form>
+
         <p className="text-center text-sm mt-4 text-orange-500">
-          Already have an account?
+          Already have an account?{" "}
           <Link to="/login" className="text-blue-500 hover:underline">
             Log In
           </Link>
         </p>
       </div>
+
       <img
         src={spagetti_1}
         sizes={20}
         className="lg:w-2/3 h-screen object-cover"
-        alt=""
+        alt="Food"
       />
     </div>
   );

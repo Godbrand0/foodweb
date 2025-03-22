@@ -1,14 +1,15 @@
 import React from "react";
 
-export default function Inputs({ type, placeholder, value, onChange }) {
+const Inputs = React.forwardRef(({ type, placeholder, ...props }, ref) => {
   return (
     <input
+      ref={ref} // Forward the ref for react-hook-form
       type={type}
       placeholder={placeholder}
-      value={value}
-      onChange={onChange}
-      required
-      className="w-full px-4 py-2 border rounded-lg"
+      className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+      {...props} // Spread other props like {...register}
     />
   );
-}
+});
+
+export default Inputs;

@@ -2,13 +2,18 @@ import {
   GoogleAuthProvider,
   signOut,
   sendEmailVerification,
-} from "firebase/auth"; // Fixed import
+} from "firebase/auth";
 import { auth } from "./Firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInWithPopup,
 } from "firebase/auth";
+
+// Function to clean up Firebase error messages
+const cleanErrorMessage = (error) => {
+  return error.message.replace(/^Firebase:\s*/, ""); // Removes "Firebase: " from the error
+};
 
 // Create a new user with email and password
 export const doCreateUserWithEmailAndPassword = async (email, password) => {
@@ -18,13 +23,12 @@ export const doCreateUserWithEmailAndPassword = async (email, password) => {
       email,
       password
     );
-    const user = userCredential;
-    //send email verification
+    const user = userCredential.user;
     await sendEmailVerification(user);
-    return userCredential; // Returns user information
+    return userCredential;
   } catch (error) {
-    console.error("Error creating user:", error);
-    throw error; // Rethrow to handle it where this function is called
+    console.error("Error creating user:", cleanErrorMessage(error));
+    throw new Error(cleanErrorMessage(error));
   }
 };
 
@@ -41,10 +45,11 @@ export const doSignInWithEmailAndPassword = async (email, password) => {
     if (!user.emailVerified) {
       throw new Error("Email not verified. Please check your inbox");
     }
+
     return userCredential;
   } catch (error) {
-    console.error("Error signing in:", error);
-    throw error;
+    console.error("Error signing in:", cleanErrorMessage(error));
+    throw new Error(cleanErrorMessage(error));
   }
 };
 
@@ -53,10 +58,10 @@ export const doSignInWithGoogle = async () => {
   const provider = new GoogleAuthProvider();
   try {
     const result = await signInWithPopup(auth, provider);
-    return result.user; // Returns the user object
+    return result.user;
   } catch (error) {
-    console.error("Error signing in with Google:", error);
-    throw error;
+    console.error("Error signing in with Google:", cleanErrorMessage(error));
+    throw new Error(cleanErrorMessage(error));
   }
 };
 
@@ -66,15 +71,7 @@ export const doSignOut = async () => {
     await signOut(auth);
     console.log("Successfully signed out");
   } catch (error) {
-    console.error("Error signing out:", error);
-    throw error;
+    console.error("Error signing out:", cleanErrorMessage(error));
+    throw new Error(cleanErrorMessage(error));
   }
 };
-
-// export const doPasswordReset =(email) =>{
-//     return sendPasswordResetEmail(auth, email)
-// }
-
-// export const doPasswordChange =(password) =>{
-//     return updatePassword(auth.currentUser, password)
-// }
