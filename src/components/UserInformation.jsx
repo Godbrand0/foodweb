@@ -5,6 +5,7 @@ import { useAuth } from "../contexts/authContext";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../firebase/Firebase";
 import Inputs from "../Reuse/Inputs";
+import { toast } from "react-toastify";
 
 export default function UserInformation() {
   const { currentUser, loading: authLoading } = useAuth();
@@ -40,13 +41,14 @@ export default function UserInformation() {
         email: currentUser.email,
       });
 
-      alert("User information saved");
+      toast.success("information saved");
       navigate("/profile");
     } catch (error) {
-      console.error("Error saving user information:", error);
+      toast.error(error.message || "Something went wrong");
       setError("root", {
         message: "Error saving user information. Try again.",
       });
+      toast.error(error.message || "Something went wrong");
     } finally {
       setLoading(false);
     }
@@ -62,12 +64,6 @@ export default function UserInformation() {
         <h3 className="text-xl font-semibold text-center mb-4 text-gray-800">
           User Information
         </h3>
-
-        {errors.root && (
-          <p className="text-red-500 text-sm text-center">
-            {errors.root.message}
-          </p>
-        )}
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <Inputs

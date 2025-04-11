@@ -15,6 +15,7 @@ export default function Login() {
   const { userLoggedIn } = useAuth();
   const [errorMessage, setErrorMessage] = useState("");
   const [isSigningIn, setIsSigningIn] = useState(false);
+  const [isGoggleSigningIn, setIsGoggleSigningIn] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const {
@@ -49,7 +50,7 @@ export default function Login() {
   };
 
   const handleGoogleSignIn = async () => {
-    setIsSigningIn(true);
+    setIsGoggleSigningIn(true);
     setErrorMessage("");
 
     try {
@@ -60,7 +61,7 @@ export default function Login() {
       setErrorMessage(error.message);
       toast.error(error.message || "Login failed. Please try again.");
     } finally {
-      setIsSigningIn(false);
+      setIsGoggleSigningIn(false);
     }
   };
 
@@ -117,10 +118,10 @@ export default function Login() {
 
         <button
           onClick={handleGoogleSignIn}
-          disabled={isSigningIn}
+          disabled={isGoggleSigningIn}
           className="w-full py-2 mt-2 text-white rounded-lg bg-red-500 hover:bg-red-600 transition duration-300"
         >
-          {isSigningIn ? "Signing in..." : "Sign in with Google"}
+          {isGoggleSigningIn ? "GoggleSigning in..." : "Sign in with Google"}
         </button>
 
         <p className="text-center text-sm mt-4 text-orange-500">

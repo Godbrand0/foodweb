@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 export default function SignUp() {
   const navigate = useNavigate();
   const { userLoggedIn } = useAuth();
+  const [isGoggleSubmitting, setIsGoggleSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
@@ -56,12 +57,15 @@ export default function SignUp() {
   };
 
   const handleGoogleSignIn = async () => {
+    setIsGoggleSubmitting(true);
     try {
       await doSignInWithGoogle();
       navigate("/home");
     } catch (error) {
       setError("root", { message: error.message });
       toast.error(error.message || "Something went wrong");
+    } finally {
+      setIsGoggleSubmitting(false);
     }
   };
 
@@ -139,10 +143,10 @@ export default function SignUp() {
           <button
             type="button"
             onClick={handleGoogleSignIn}
-            disabled={isSubmitting}
+            disabled={isGoggleSubmitting}
             className="w-full py-2 mt-2 text-white rounded-lg bg-red-500 hover:bg-red-600 transition duration-300"
           >
-            {isSubmitting ? "Signing in..." : "Sign in with Google"}
+            {isGoggleSubmitting ? "Resgistering..." : "Sign in with Google"}
           </button>
         </form>
 
