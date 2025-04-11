@@ -8,6 +8,7 @@ import {
 } from "../firebase/Auth";
 import Inputs from "../Reuse/Inputs";
 import spagetti_1 from "../assets/seafood-sushi-dish-with-details-simple-black-background.jpg";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -35,8 +36,10 @@ export default function Login() {
     try {
       await doSignInWithEmailAndPassword(data.email, data.password);
       navigate("/home");
+      toast.success("Login successful");
     } catch (error) {
       setErrorMessage(error.message);
+      toast.error(error.message || "Login failed. Please try again.");
     } finally {
       setIsSigningIn(false);
     }
@@ -52,8 +55,10 @@ export default function Login() {
     try {
       await doSignInWithGoogle();
       navigate("/home");
+      toast.success("Google Sign in successful");
     } catch (error) {
       setErrorMessage(error.message);
+      toast.error(error.message || "Login failed. Please try again.");
     } finally {
       setIsSigningIn(false);
     }
@@ -121,7 +126,6 @@ export default function Login() {
         <p className="text-center text-sm mt-4 text-orange-500">
           Don't have an account?
           <Link to="/signup" className="text-blue-500 hover:underline">
-            {" "}
             Sign Up
           </Link>
         </p>

@@ -8,6 +8,7 @@ import {
 } from "../firebase/Auth";
 import Inputs from "../Reuse/Inputs";
 import spagetti_1 from "../assets/delicious-epic-food-presentation.jpg";
+import { toast } from "react-toastify";
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -45,10 +46,12 @@ export default function SignUp() {
 
     try {
       await doCreateUserWithEmailAndPassword(email, password);
+      toast.success("Verification email sent! Please check your inbox.");
       setSuccessMessage("Verification email sent! Please check your inbox.");
       setTimeout(() => navigate("/login"), 4000);
     } catch (error) {
       setError("root", { message: error.message });
+      toast.error(error.message || "Something went wrong");
     }
   };
 
@@ -58,6 +61,7 @@ export default function SignUp() {
       navigate("/home");
     } catch (error) {
       setError("root", { message: error.message });
+      toast.error(error.message || "Something went wrong");
     }
   };
 
@@ -65,15 +69,6 @@ export default function SignUp() {
     <div className="lg:flex h-screen overflow-hidden justify-center bg-black items-center min-h-screen">
       <div className="lg:w-1/3 p-6 shadow-xl border-none rounded-lg">
         <h3 className="text-xl font-semibold text-center mb-4">Sign Up</h3>
-
-        {successMessage && (
-          <p className="text-green-500 text-sm font-bold">{successMessage}</p>
-        )}
-        {errors.root && (
-          <p className="text-red-500 text-sm font-bold">
-            {errors.root.message}
-          </p>
-        )}
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <Inputs

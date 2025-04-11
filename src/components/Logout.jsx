@@ -2,6 +2,7 @@ import React from "react";
 import { doSignOut } from "../firebase/Auth"; // Import sign-out function
 import { useNavigate } from "react-router-dom";
 import { LogOut } from "lucide-react";
+import { toast } from "react-toastify";
 
 export default function Logout() {
   const navigate = useNavigate();
@@ -10,8 +11,9 @@ export default function Logout() {
     try {
       await doSignOut(); // Calls the sign-out function
       navigate("/login"); // Redirect to login page after successful logout
+      toast.success("Log out successful");
     } catch (error) {
-      console.error("Logout failed:", error);
+      toast.error("Logout failed:", error);
     }
   };
 

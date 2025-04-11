@@ -5,6 +5,7 @@ import { auth } from "../firebase/Firebase";
 import { sendEmailVerification } from "firebase/auth";
 import { History } from "lucide-react";
 import NavIcons from "../Reuse/NavIcons";
+import { toast } from "react-toastify";
 
 export default function CheckoutSection({ closeSection }) {
   const cart = useSelector((state) => state.cart.cart);
@@ -12,19 +13,19 @@ export default function CheckoutSection({ closeSection }) {
 
   const handlePlaceOrder = () => {
     if (!user) {
-      alert("You must be logged in to pace an order");
+      toast.error("You must be logged in to pace an order");
       return;
     }
 
     if (!user.emailVerified) {
-      alert("Please verify your email to place an order");
+      toast.error("Please verify your email to place an order");
       sendEmailVerification(user)
-        .then(() => alert("A new verification email has been sent!"))
-        .catch((err) => alert(err.message));
+        .then(() => toast.success("A new verification email has been sent!"))
+        .catch((err) => toast.error(err.message));
       return;
     }
 
-    alert("Order placed succesfully");
+    toast.success("Order placed succesfully");
   };
   return (
     <div className="fixed top-0 left-0 w-full h-full  z-50 lg:bg-white bg-yellow-600">
