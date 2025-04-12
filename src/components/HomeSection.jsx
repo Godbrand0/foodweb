@@ -10,17 +10,19 @@ export default function HomeSection() {
     { name: "Vegan Delights" },
     { name: "Mexican Fiesta" },
   ];
-  console.log(restaurants);
 
   return (
     <div className="w-full">
       <div>
-        <h1 className="text-orange-600 text-4xl my-8 font-extrabold">
+        <h1 className="text-orange-600 text-4xl my-8 font-extrabold ml-5">
           Restaurants
         </h1>
-        <ul className="my-5 lg:space-y-5 space-y-3">
+        <ul className="my-5 lg:space-y-8 space-y-3 ml-10">
           {restaurants.map((restaurant, index) => (
-            <li key={index}>
+            <li
+              key={index}
+              className="transition-transform ease-in-out duration-300 hover:scale-110"
+            >
               <Link
                 to={`/restaurant/${encodeURIComponent(restaurant.name)}`}
                 className="restaurant-link text-slate-300 lg:text-5xl text-4xl font-extrabold"

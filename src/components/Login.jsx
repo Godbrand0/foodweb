@@ -32,15 +32,15 @@ export default function Login() {
 
   const onSubmit = async (data) => {
     setIsSigningIn(true);
-    setErrorMessage("");
 
     try {
       await doSignInWithEmailAndPassword(data.email, data.password);
       navigate("/home");
       toast.success("Login successful");
     } catch (error) {
-      setErrorMessage(error.message);
-      toast.error(error.message || "Login failed. Please try again.");
+      console.error(error);
+
+      toast.error(error.message || "Oops. Check details.");
     } finally {
       setIsSigningIn(false);
     }
@@ -58,7 +58,7 @@ export default function Login() {
       navigate("/home");
       toast.success("Google Sign in successful");
     } catch (error) {
-      setErrorMessage(error.message);
+      setErrorMessage(error);
       toast.error(error.message || "Login failed. Please try again.");
     } finally {
       setIsGoggleSigningIn(false);

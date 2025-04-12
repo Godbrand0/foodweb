@@ -42,9 +42,9 @@ export const doSignInWithEmailAndPassword = async (email, password) => {
     );
     const user = userCredential.user;
 
-    if (!user.emailVerified) {
-      throw new Error("Email not verified. Please check your inbox");
-    }
+    // if (!user.emailVerified) {
+    //   throw new Error("Email not verified. Please check your inbox");
+    // }
 
     return userCredential;
   } catch (error) {

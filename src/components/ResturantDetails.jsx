@@ -8,6 +8,7 @@ import ProfileSection from "./ProfileSection";
 import CheckoutSection from "./CheckoutSection";
 import MobileNavigation from "./MobileNavigation";
 import FoodDetails from "./FoodDetails";
+import { toast } from "react-toastify";
 
 const restaurantData = {
   "The Italian Place": [
@@ -246,10 +247,11 @@ export default function ResturantDetails({ ResturantDetails }) {
     dispatch(
       addToCart({ id: `${decodedName}-${index}`, name: foodName, price, image })
     );
+    toast.success("added to cart");
   };
 
   return (
-    <div className="flex justify-center gap-16">
+    <div className="flex justify-center gap-16 m-6">
       <div className="restaurant-details w-[700px]">
         <h1 className="text-2xl font-bold mb-4">{decodedName}</h1>
         <ul>
