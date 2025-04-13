@@ -16,7 +16,7 @@ export default function FoodDetails({ food, closeModal }) {
             className=" object- rounded-lg"
           />
           <h2 className="text-lg font-bold">{food.name}</h2>
-          <p>{food.price}</p>
+          <p>${food.price}</p>
           <p className="mt-2">{food.details}</p>
         </div>
       </div>

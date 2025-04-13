@@ -21,25 +21,6 @@ export default function ProfileSection({ closeSection }) {
   });
   const [loading, setLoading] = useState(false);
 
-  // Log userData to check if it's being updated correctly
-  console.log(userData);
-
-  const addFoodToRestaurant = async (restaurantId, foodData) => {
-    try {
-      const foodsRef = collection(db, `restaurants/${restaurantId}/foods`);
-      await addDoc(foodsRef, foodData);
-      console.log("food added");
-    } catch (e) {
-      console.error("Error adding food document: ", e);
-    }
-  };
-  useEffect(() => {
-    addFoodToRestaurant("WEgA4SUfWi1TVan1KLD9", {
-      name: "Pizza Roll",
-      price: 12.99,
-    });
-  }, []);
-
   useEffect(() => {
     if (currentUser?.uid) {
       const fetchUserData = async () => {
@@ -72,7 +53,7 @@ export default function ProfileSection({ closeSection }) {
   }
 
   return (
-    <div className="w-screen h-screen fixed z-50 bg-slate-200 lg:bg-white">
+    <div className="w-screen h-screen fixed z-50 bg-blue-950 lg:bg-white">
       {/* Mobile Close Button */}
       <div className=" lg:hidden flex justify-between m-3">
         <button onClick={closeSection}>

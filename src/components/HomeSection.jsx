@@ -14,7 +14,7 @@ export default function HomeSection() {
   return (
     <div className="w-full">
       <div>
-        <h1 className="text-orange-600 text-4xl my-8 font-extrabold ml-5">
+        <h1 className="text-orange-600 text-4xl mt-14 font-extrabold ml-5">
           Restaurants
         </h1>
         <ul className="my-5 lg:space-y-8 space-y-3 ml-10">

@@ -4,8 +4,7 @@ import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import NavIcons from "../Reuse/NavIcons";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../redux/cartSlice";
-import ProfileSection from "./ProfileSection";
-import CheckoutSection from "./CheckoutSection";
+
 import MobileNavigation from "./MobileNavigation";
 import FoodDetails from "./FoodDetails";
 import { toast } from "react-toastify";
@@ -231,7 +230,6 @@ export default function ResturantDetails({ ResturantDetails }) {
 
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.cart);
-  const [activeSection, setActiveSection] = useState(""); // Track active section
 
   const handleFoodClick = (food) => {
     setSelectedFood(food);
@@ -239,21 +237,20 @@ export default function ResturantDetails({ ResturantDetails }) {
   };
 
   // Function to update the active section
-  const handleSetActiveSection = (section) => {
-    setActiveSection(section);
-  };
 
   const handleAddToCart = (index, foodName, price, image) => {
     dispatch(
       addToCart({ id: `${decodedName}-${index}`, name: foodName, price, image })
     );
-    toast.success("added to cart");
+    toast.success("added to cart", {
+      position: "bottom-center",
+    });
   };
 
   return (
     <div className="flex justify-center gap-16 m-6">
       <div className="restaurant-details w-[700px]">
-        <h1 className="text-2xl font-bold mb-4">{decodedName}</h1>
+        <h1 className="text-2xl font-bold mt-10 mb-4">{decodedName}</h1>
         <ul>
           {foods.map((food, index) => (
             <li
@@ -268,7 +265,7 @@ export default function ResturantDetails({ ResturantDetails }) {
                 {food.name} - ${food.price.toFixed(2)}
               </span>
               <button
-                className="bg-orange-500 py-2 px-4 rounded-xl text-white font-bold flex items-center hover:opacity-75 transition-opacity"
+                className="bg-orange-500 py-2 px-4 rounded-xl text-white font-bold flex items-center"
                 onClick={() =>
                   handleAddToCart(index, food.name, food.price, food.image)
                 }
@@ -285,18 +282,8 @@ export default function ResturantDetails({ ResturantDetails }) {
           />
         )}
       </div>
-      {activeSection === "ProfileSection" && (
-        <div className="fixed top-0 left-0 w-full h-full bg-white z-50">
-          <ProfileSection closeSection={() => setActiveSection("")} />
-        </div>
-      )}
 
-      {activeSection === "CheckoutSection" && (
-        <div className="fixed top-0 left-0 w-full h-full bg-white z-50">
-          <CheckoutSection closeSection={() => setActiveSection("")} />
-        </div>
-      )}
-      <MobileNavigation setActiveSection={handleSetActiveSection} />
+      <MobileNavigation />
     </div>
   );
 }
