@@ -14,9 +14,15 @@ export default function HomeSection() {
   return (
     <div className="w-full">
       <div>
-        <h1 className="text-orange-600 text-4xl mt-14 font-extrabold ml-5">
-          Restaurants
-        </h1>
+        <div className="ml-5">
+          <h1 className="text-orange-600 text-4xl mt-14 font-extrabold ">
+            Restaurants
+          </h1>
+          <p className="text-orange-500 italic text-sm font-thin">
+            Explore your favourite restaurant with just a click
+          </p>
+        </div>
+
         <ul className="my-5 lg:space-y-8 space-y-3 ml-10">
           {restaurants.map((restaurant, index) => (
             <li

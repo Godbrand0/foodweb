@@ -11,12 +11,13 @@ import ProfileSection from "./components/ProfileSection";
 import CheckoutSection from "./components/CheckoutSection";
 import Verifypage from "./components/Verifypage";
 import ProtectedRoute from "./ProtectedRoute";
+import HomeSection from "./components/HomeSection";
 
 export default function Approutes() {
   const { currentUser } = useAuth();
   return (
     <div className="h-screen overflow-hidden">
-      {currentUser && <Navbar className="block" />}
+      {currentUser?.emailVerified && <Navbar className="block" />}
       <Routes>
         <Route path="/" element={<Navigate to="/home" />} />
         <Route path="/verify-email" element={<Verifypage />} />

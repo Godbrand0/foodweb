@@ -248,9 +248,14 @@ export default function ResturantDetails({ ResturantDetails }) {
   };
 
   return (
-    <div className="flex justify-center gap-16 m-3">
-      <div className="restaurant-details w-[700px]">
-        <h1 className="text-2xl font-bold mt-10 mb-4">{decodedName}</h1>
+    <div className="flex justify-center gap-16 m-3 ">
+      <div className="restaurant-details w-[700px] overflow-y-auto">
+        <h1
+          className="text-2xl font-bold 
+        mt-10 lg:mt-3 mb-4"
+        >
+          {decodedName}
+        </h1>
         <ul>
           {foods.map((food, index) => (
             <li

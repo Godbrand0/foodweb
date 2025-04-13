@@ -19,10 +19,7 @@ export default function Logout() {
 
   return (
     <div className="cursor-pointer" onClick={handleLogout}>
-      <button className="hidden lg:block">Logout</button>
-      <button className="lg:hidden">
-        <LogOut className="text-white" />
-      </button>
+      <button className="">Logout</button>
     </div>
   );
 }

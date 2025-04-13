@@ -72,7 +72,9 @@ export default function SignUp() {
   return (
     <div className="lg:flex h-screen overflow-hidden justify-center bg-black items-center min-h-screen">
       <div className="lg:w-1/3 p-6 shadow-xl border-none rounded-lg">
-        <h3 className="text-xl font-semibold text-center mb-4">Sign Up</h3>
+        <h3 className="text-2xl font-semibold mb-4 text-orange-500">
+          welcome new user!
+        </h3>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <Inputs

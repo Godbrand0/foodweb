@@ -16,7 +16,7 @@ export default function Home({ cart, setCart }) {
 
   return (
     <div>
-      <div className="relative min-h-screen flex justify-center">
+      <div className="relative flex justify-center">
         {/* Profile Section - Overlay */}
 
         <div className="">
@@ -49,7 +49,7 @@ export default function Home({ cart, setCart }) {
         </div>
 
         {/* Mobile Navigation: Visible only on small screens */}
-        <div className="lg:hidden fixed bottom-0 left-0 w-full">
+        <div className="lg:hidden fixed left-0 w-full">
           <MobileNavigation setActiveSection={handleSetActiveSection} />
         </div>
       </div>
