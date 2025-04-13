@@ -248,7 +248,7 @@ export default function ResturantDetails({ ResturantDetails }) {
   };
 
   return (
-    <div className="flex justify-center gap-16 m-6">
+    <div className="flex justify-center gap-16 m-3">
       <div className="restaurant-details w-[700px]">
         <h1 className="text-2xl font-bold mt-10 mb-4">{decodedName}</h1>
         <ul>
@@ -257,13 +257,18 @@ export default function ResturantDetails({ ResturantDetails }) {
               key={index}
               className="flex justify-between items-center mb-4 bg-gray-100 p-4 rounded-lg shadow cursor-pointer"
             >
-              <span
-                key={food.id}
-                onClick={() => handleFoodClick(food)}
-                className="w-2/3"
-              >
-                {food.name} - ${food.price.toFixed(2)}
-              </span>
+              <div className="flex flex-col gap-2">
+                <span key={food.id} className="">
+                  {food.name} - ${food.price.toFixed(2)}
+                </span>
+                <span
+                  className="text-orange-500"
+                  onClick={() => handleFoodClick(food)}
+                >
+                  view details
+                </span>
+              </div>
+
               <button
                 className="bg-orange-500 py-2 px-4 rounded-xl text-white font-bold flex items-center"
                 onClick={() =>
