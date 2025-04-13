@@ -40,7 +40,7 @@ export default function Login() {
     } catch (error) {
       console.error(error);
 
-      toast.error(error.message || "Oops. Check details.");
+      toast.error("Oops. Check details.");
     } finally {
       setIsSigningIn(false);
     }

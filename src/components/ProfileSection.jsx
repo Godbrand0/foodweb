@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import NavIcons from "../Reuse/NavIcons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../contexts/authContext"; // Make sure useAuth is imported
@@ -30,11 +30,9 @@ export default function ProfileSection({ closeSection }) {
           if (docSnap.exists()) {
             setUserData(docSnap.data()); // Set the fetched data to state
           } else {
-            console.log("No user data found");
             setUserData((prevState) => ({ ...prevState, username: "N/A" })); // Default if no data found
           }
         } catch (error) {
-          console.error("Error fetching user data:", error);
         } finally {
           setLoading(false); // Set loading to false once data is fetched
         }

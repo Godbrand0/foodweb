@@ -9,6 +9,8 @@ import UserInformation from "./components/UserInformation";
 import Navbar from "./components/Navbar";
 import ProfileSection from "./components/ProfileSection";
 import CheckoutSection from "./components/CheckoutSection";
+import Verifypage from "./components/Verifypage";
+import ProtectedRoute from "./ProtectedRoute";
 
 export default function Approutes() {
   const { currentUser } = useAuth();
@@ -16,33 +18,50 @@ export default function Approutes() {
     <div className="h-screen overflow-hidden">
       {currentUser && <Navbar className="block" />}
       <Routes>
-        <Route path="/" element={<Navigate to="/home" replace />} />
+        <Route path="/" element={<Navigate to="/home" />} />
+        <Route path="/verify-email" element={<Verifypage />} />
         <Route
           path="/home"
-          element={currentUser ? <Home /> : <Navigate to="/login" replace />}
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          }
         />
         <Route
           path="/profile"
           element={
-            currentUser ? <ProfileSection /> : <Navigate to="/login" replace />
+            <ProtectedRoute>
+              <ProfileSection />
+            </ProtectedRoute>
           }
         />
         <Route
           path="/cart"
           element={
-            currentUser ? <CheckoutSection /> : <Navigate to="/login" replace />
+            <ProtectedRoute>
+              <CheckoutSection />
+            </ProtectedRoute>
           }
         />
         <Route
           path="/restaurant/:name"
           element={
-            currentUser ? (
+            <ProtectedRoute>
               <ResturantDetails />
-            ) : (
-              <Navigate to="/login" replace />
-            )
+            </ProtectedRoute>
           }
         />
+
+        <Route
+          path="/userinfo"
+          element={
+            <ProtectedRoute>
+              <UserInformation />
+            </ProtectedRoute>
+          }
+        />
+
         <Route
           path="/login"
           element={currentUser ? <Navigate to="/home" replace /> : <Login />}
@@ -50,12 +69,6 @@ export default function Approutes() {
         <Route
           path="/signup"
           element={currentUser ? <Navigate to="/home" replace /> : <SignUp />}
-        />
-        <Route
-          path="/userinfo"
-          element={
-            currentUser ? <UserInformation /> : <Navigate to="/login" replace />
-          }
         />
         {/* Add a catch-all route for undefined paths */}
         <Route path="*" element={<Navigate to="/home" replace />} />
