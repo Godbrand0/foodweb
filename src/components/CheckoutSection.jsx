@@ -10,9 +10,13 @@ import { removeFromCart } from "../redux/cartSlice";
 import { useAuth } from "../contexts/authContext"; // Make sure useAuth is imported
 import { doc, getDoc, collection, addDoc } from "firebase/firestore";
 import { db } from "../firebase/Firebase";
+import OrdalModal from "./OrdalModal";
 export default function CheckoutSection({ closeSection }) {
   const { currentUser } = useAuth();
   const cart = useSelector((state) => state.cart.cart);
+
+  const [showModal, setShowodal] = useState(false);
+  const [orderStatus, setOrderStatus] = useState("processing");
   const [showConfirm, setShowConfirm] = useState(false);
   const [userData, setUserData] = useState({
     phone: "",
@@ -31,6 +35,17 @@ export default function CheckoutSection({ closeSection }) {
   };
   const handlePlaceOrder = () => {
     setShowConfirm(true);
+  };
+  const handleConfirm = () => {
+    setShowodal(true);
+    setOrderStatus("processing");
+    setTimeout(() => {
+      setOrderStatus("successful");
+    }, 7000);
+  };
+
+  const handleCloseModal = () => {
+    setShowodal(false);
   };
 
   useEffect(() => {
@@ -140,7 +155,7 @@ export default function CheckoutSection({ closeSection }) {
               <div>
                 <button
                   className="bg-orange-500 py-2 px-4 my-4 rounded-xl text-white font-bold text-center lg:w-36 w-full"
-                  //onClick={}
+                  onClick={handleConfirm}
                 >
                   <span className="">Confirm Details</span>
                 </button>
@@ -149,7 +164,9 @@ export default function CheckoutSection({ closeSection }) {
           )}
         </div>
 
-        <div></div>
+        {showModal && (
+          <OrdalModal status={orderStatus} onClose={handleCloseModal} />
+        )}
       </div>
     </div>
   );
