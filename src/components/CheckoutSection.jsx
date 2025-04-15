@@ -120,7 +120,7 @@ export default function CheckoutSection({ closeSection }) {
           )}
           {cart.length > 0 && (
             <div>
-              <div className="mt-4 font-bold lg:text-black text-white right-8 fixed">
+              <div className="mt-4 font-bold lg:text-black text-white right-8 fixed lg:right-72">
                 Total: $
                 {cart
                   .reduce((total, item) => total + item.totalPrice, 0)
@@ -154,7 +154,7 @@ export default function CheckoutSection({ closeSection }) {
               </ul>
               <div>
                 <button
-                  className="bg-orange-500 py-2 px-4 my-4 rounded-xl text-white font-bold text-center lg:w-36 w-full"
+                  className="bg-orange-500 py-2 px-4 my-4 rounded-xl text-white font-bold text-center lg:w-48 w-full"
                   onClick={handleConfirm}
                 >
                   <span className="">Confirm Details</span>
