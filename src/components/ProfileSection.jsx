@@ -7,6 +7,7 @@ import { doc, getDoc, collection, addDoc } from "firebase/firestore";
 import { db } from "../firebase/Firebase"; // Make sure Firebase is properly set up
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import user from "../assets/user_17740832.png";
+import { LogOut } from "lucide-react";
 
 import Logout from "./Logout";
 
@@ -61,7 +62,10 @@ export default function ProfileSection({ closeSection }) {
           />
         </button>
         <button className="text-white text-2xl  bg-orange-500 p-2 rounded-lg">
-          <Logout className="text-white text-2xl  bg-orange-500 p-2 rounded-lg" />
+          <Logout
+            logo={<LogOut />}
+            className="text-white text-2xl  bg-orange-500 p-2 rounded-lg"
+          />
         </button>
       </div>
       <div className="flex flex-col gap-5 mt-24">

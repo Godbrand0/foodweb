@@ -2,6 +2,7 @@ import { getAuth, sendEmailVerification } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Logout from "./Logout";
+import { toast } from "react-toastify";
 
 export default function Verifypage() {
   const auth = getAuth();
@@ -32,6 +33,13 @@ export default function Verifypage() {
       });
     }
   };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      window.location.reload();
+    }, 5000);
+    return () => clearInterval(interval);
+  });
   return (
     <div className="flex flex-col items-center justify-center h-screen text-center">
       <h1 className="text-2xl font-bold mb-4">Verify Your Email</h1>
@@ -43,7 +51,7 @@ export default function Verifypage() {
       >
         Resend Verification Email
       </button>
-      <Logout />
+      <Logout logo="logout" />
     </div>
   );
 }

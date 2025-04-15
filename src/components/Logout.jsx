@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { LogOut } from "lucide-react";
 import { toast } from "react-toastify";
 
-export default function Logout() {
+export default function Logout({ logo }) {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -19,7 +19,7 @@ export default function Logout() {
 
   return (
     <div className="cursor-pointer" onClick={handleLogout}>
-      <button className="">Logout</button>
+      <button className="">{logo}</button>
     </div>
   );
 }
