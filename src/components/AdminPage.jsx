@@ -3,6 +3,9 @@ import { db } from "../firebase/Firebase";
 import { addDoc, collection, getDocs } from "firebase/firestore";
 import { useForm } from "react-hook-form";
 
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { storage } from "../firebase/Firebase";
+
 export default function AdminPage() {
   const [restaurants, setRestaurants] = useState([]);
   const { register, handleSubmit, reset } = useForm();
@@ -15,19 +18,32 @@ export default function AdminPage() {
         id: doc.id,
         ...doc.data(),
       }));
+      console.log(restaurantList);
+
       setRestaurants(restaurantList);
     };
 
     fetchRestaurants();
   }, []);
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (data) => {
     try {
+      let imageUrl = "";
+
+      if (data.photo[0]) {
+        const storageRef = ref(
+          storage,
+          `food_images/${Date.now()}_${data.photo[0].name}`
+        );
+        await uploadBytes(storageRef, data.photo[0]);
+        imageUrl = await getDownloadURL(storageRef);
+      }
       await addDoc(collection(db, "foods"), {
         name: data.name,
         price: parseFloat(data.price),
         restaurantId: data.restaurantId,
+        details: data.details,
+        imageUrl: imageUrl,
       });
       alert("Food added successfully");
       reset();
@@ -56,6 +72,26 @@ export default function AdminPage() {
               step="0.01"
               {...register("price", { required: true })}
               className="w-full p-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">
+              Food Details
+            </label>
+            <textarea
+              {...register("details")}
+              className="w-full p-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+            ></textarea>
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">
+              Upload Photo
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              {...register("photo")}
+              className="w-full p-2 border rounded-xl"
             />
           </div>
           <div>
