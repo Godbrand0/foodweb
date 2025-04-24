@@ -117,7 +117,12 @@ export default function Login() {
           {errorMessage && (
             <p className="text-red-500 text-sm font-bold">{errorMessage}</p>
           )}
-
+          <Link
+            to="/resetPassword"
+            className="float-right text-orange-500 hover:underline"
+          >
+            Forgot Password?
+          </Link>
           <button
             type="submit"
             disabled={isSigningIn}

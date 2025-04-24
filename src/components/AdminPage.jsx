@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { db } from "../firebase/Firebase";
 import { addDoc, collection, getDocs } from "firebase/firestore";
+import { useForm } from "react-hook-form";
 
 export default function AdminPage() {
   const [restaurants, setRestaurants] = useState([]);
