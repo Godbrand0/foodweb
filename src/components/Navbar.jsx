@@ -15,7 +15,7 @@ export default function Navbar() {
               <Link to="/home">Home</Link>
             </li>
             <li>
-              <Logout />
+              <Logout logo="log Out" />
             </li>
             <li>
               <Link to="/">History</Link>

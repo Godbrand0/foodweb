@@ -12,6 +12,7 @@ import CheckoutSection from "./components/CheckoutSection";
 import Verifypage from "./components/Verifypage";
 import ProtectedRoute from "./ProtectedRoute";
 import HomeSection from "./components/HomeSection";
+import AdminPage from "./components/AdminPage";
 
 export default function Approutes() {
   const { currentUser } = useAuth();
@@ -21,6 +22,7 @@ export default function Approutes() {
       <Routes>
         <Route path="/" element={<Navigate to="/home" />} />
         <Route path="/verify-email" element={<Verifypage />} />
+        <Route path="/admin" element={<AdminPage />} />
         <Route
           path="/home"
           element={

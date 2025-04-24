@@ -47,6 +47,7 @@ export default function SignUp() {
 
     try {
       await doCreateUserWithEmailAndPassword(email, password);
+
       toast.success("Verification email sent! Please check your inbox.");
       setSuccessMessage("Verification email sent! Please check your inbox.");
       setTimeout(() => navigate("/login"), 4000);

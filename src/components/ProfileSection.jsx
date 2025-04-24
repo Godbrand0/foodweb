@@ -18,6 +18,7 @@ export default function ProfileSection({ closeSection }) {
     username: "",
     phone: "",
     address: "",
+    photoURL: "",
     email: currentUser?.email || "", // Get email from auth
   });
   const [loading, setLoading] = useState(false);
@@ -29,9 +30,23 @@ export default function ProfileSection({ closeSection }) {
           const docRef = doc(db, "users", currentUser.uid); // Use currentUser.uid here
           const docSnap = await getDoc(docRef);
           if (docSnap.exists()) {
-            setUserData(docSnap.data()); // Set the fetched data to state
+            const firestoreData = docSnap.data();
+            setUserData({
+              username:
+                firestoreData.username || currentUser.displayName || "N/A",
+              email: currentUser.email,
+              phone: firestoreData.phone || "",
+              address: firestoreData.address || "",
+              photoURL: currentUser.photoURL || "",
+            }); // Set the fetched data to state
           } else {
-            setUserData((prevState) => ({ ...prevState, username: "N/A" })); // Default if no data found
+            setUserData({
+              username: currentUser.displayName || "N/A",
+              email: currentUser.email || "",
+              phone: "",
+              address: "",
+              photoURL: currentUser.photoURL || "",
+            }); // Default if no data found
           }
         } catch (error) {
         } finally {
@@ -69,8 +84,8 @@ export default function ProfileSection({ closeSection }) {
         </button>
       </div>
       <div className="flex flex-col gap-5 mt-24">
-        <div className="mx-auto lg:w-24 lg:h-24 w-11 h-11">
-          <img src={user} alt="" className="" />
+        <div className="mx-auto lg:w-24 lg:h-24 w-11 h-11 rounded-full object-cover">
+          <img src={userData.photoURL} alt="" className="" />
         </div>
         <ul className="lg:grid grid-cols-2 space-y-6 text-center font-bold text-xl">
           <li>

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/authContext";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { db } from "../firebase/Firebase";
 import {
   doSignInWithEmailAndPassword,
   doSignInWithGoogle,
@@ -54,7 +56,20 @@ export default function Login() {
     setErrorMessage("");
 
     try {
-      await doSignInWithGoogle();
+      const user = await doSignInWithGoogle();
+      const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
+
+      if (!userSnap.exists()) {
+        await setDoc(userRef, {
+          uid: user.uid,
+          name: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+          createdAt: new Date(),
+        });
+      }
+
       navigate("/home");
       toast.success("Google Sign in successful");
     } catch (error) {
